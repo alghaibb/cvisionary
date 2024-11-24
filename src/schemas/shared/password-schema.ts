@@ -7,7 +7,4 @@ export const passwordSchema = z
   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
   .regex(/[A-Z]/, "Password must contain at least one uppercase letter");
 
-export const confirmPasswordSchema = z.string();
-
 export type PasswordValues = z.infer<typeof passwordSchema>;
-export type ConfirmPasswordValues = z.infer<typeof confirmPasswordSchema>;
