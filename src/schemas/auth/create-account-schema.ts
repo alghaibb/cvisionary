@@ -2,7 +2,7 @@ import { z } from "zod";
 import { emailSchema } from "../shared/email-schema";
 import { passwordSchema } from "../shared/password-schema";
 
-export const registerSchema = z.object({
+export const createAccountSchema = z.object({
   firstName: z
     .string()
     .min(2, "First name must be at least 2 characters")
@@ -10,7 +10,9 @@ export const registerSchema = z.object({
   lastName: z
     .string()
     .min(2, "Last name must be at least 2 characters")
-    .regex(/^[a-zA-Z]+$/, "Last name can only contain letters"),
+    .regex(/^[a-zA-Z]+$/, "Last name can only contain letters")
+    .optional()
+    .or(z.literal("")),
   email: emailSchema,
   password: passwordSchema,
   confirmPassword: z.string(),
@@ -25,4 +27,4 @@ export const registerSchema = z.object({
     }
   });
 
-export type RegisterValues = z.infer<typeof registerSchema>;
+export type CreateAccountValues = z.infer<typeof createAccountSchema>;

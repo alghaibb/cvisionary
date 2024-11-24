@@ -2,6 +2,6 @@ import { z } from "zod";
 
 export const emailSchema = z
   .string()
-  .email("Invalid email format")
+  .email("Please enter a valid email")
 
 export type EmailValues = z.infer<typeof emailSchema>;
