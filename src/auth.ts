@@ -1,29 +1,33 @@
-import NextAuth, { User } from "next-auth";
+/* eslint-disable import/named */
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import NextAuth, { User } from "next-auth";
 import type { NextAuthConfig } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import { encode as defaultEncode } from "next-auth/jwt";
-import Crendentials from "next-auth/providers/credentials";
+import Credentials from "next-auth/providers/credentials";
 import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 import { v4 as uuid } from "uuid";
-import prisma from "./lib/prisma";
 import { getUserFromDb } from "./utils/db/user";
+
+import prisma from "./lib/prisma";
 
 const adapter = PrismaAdapter(prisma) as Adapter;
 
 const authConfig: NextAuthConfig = {
   adapter,
   providers: [
-    Facebook({
-      clientId: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET
-    }),
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
     }),
-    Crendentials({
+    Facebook({
+      clientId: process.env.FACEBOOK_CLIENT_ID!,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Credentials({
       credentials: {
         email: {},
         password: {},
@@ -31,10 +35,12 @@ const authConfig: NextAuthConfig = {
       async authorize(credentials) {
         const { email, password } = credentials;
 
+        // Fetch the user by email
         const res = await getUserFromDb(email as string, password as string);
         if (res) {
           return res as User;
         }
+
         return null;
       },
     }),

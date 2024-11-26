@@ -18,8 +18,14 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useTransition } from "react";
+import { login } from "./actions";
 
 export default function LoginForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,7 +39,13 @@ export default function LoginForm() {
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
 
   async function onSubmit(data: z.infer<typeof loginSchema>) {
-    console.log("Submitted Values:", data);
+    setError(null);
+    startTransition(async () => {
+      const result = await login(data);
+      if (result?.error) {
+        setError(result.error);
+      }
+    });
   }
 
   return (
@@ -42,6 +54,13 @@ export default function LoginForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 md:px-4 md:py-6"
       >
+        {error && (
+          <Alert variant="destructive">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         <FormField
           control={form.control}
           name="email"
@@ -49,7 +68,7 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" {...field} />
+                <Input type="email" {...field} disabled={isPending} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,7 +83,11 @@ export default function LoginForm() {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Input type={isVisible ? "text" : "password"} {...field} />
+                  <Input
+                    type={isVisible ? "text" : "password"}
+                    {...field}
+                    disabled={isPending}
+                  />
                   <button
                     type="button"
                     className="absolute inset-y-0 right-0 flex items-center pr-3"
@@ -85,13 +108,15 @@ export default function LoginForm() {
           </Button>
         </div>
 
-        <div className="flex flex-col justify-between w-full pt-4 space-y-4 md:flex-row md:space-y-0">
+        <div className="flex w-full flex-col justify-between space-y-4 pt-4 md:flex-row md:space-y-0">
           <LoadingButton
             type="submit"
             className="w-full md:w-auto"
             variant="gooeyLeft"
+            loading={isPending}
+            disabled={isPending}
           >
-            Login
+            {isPending ? "Logging In" : "Log In"}
           </LoadingButton>
 
           <Button type="button" asChild variant="linkHover2">

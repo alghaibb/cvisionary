@@ -72,3 +72,18 @@ export async function getAllUsers(limit = 10, offset = 0) {
     throw new Error("Failed to fetch all users");
   }
 }
+
+// Find user by reset password token
+export async function getUserByResetPasswordToken(token: string) {
+  try {
+    const passwordResetToken = await prisma.resetPasswordToken.findFirst({
+      where: { token },
+      include: { user: true },
+    });
+
+    return passwordResetToken?.user || null;
+  } catch (error) {
+    console.error("Error fetching user by reset password token:", error);
+    throw new Error("Failed to fetch user by reset password token");
+  }
+};

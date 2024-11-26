@@ -22,9 +22,15 @@ import {
 import { otpSchema, OTPValues } from "@/schemas";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import * as React from "react";
+import React, { useState, useTransition } from "react";
+import { verifyAccount } from "./actions";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import ResendOTPModal from "../(resend-otp)/ResendOTPModal";
 
 export default function VerifyEmailForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<OTPValues>({
     resolver: zodResolver(otpSchema),
     defaultValues: {
@@ -33,7 +39,13 @@ export default function VerifyEmailForm() {
   });
 
   async function onSubmit(data: z.infer<typeof otpSchema>) {
-    console.log("Submitted OTP:", data);
+    setError(null);
+    startTransition(async () => {
+      const result = await verifyAccount(data);
+      if (result?.error) {
+        setError(result.error);
+      }
+    });
   }
 
   return (
@@ -42,6 +54,12 @@ export default function VerifyEmailForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 md:px-4 md:py-6"
       >
+        {error && (
+          <Alert variant="destructive">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         {/* OTP Input */}
         <FormField
           control={form.control}
@@ -50,7 +68,7 @@ export default function VerifyEmailForm() {
             <FormItem className="text-center">
               <FormLabel>One-Time Password</FormLabel>
               <FormControl>
-                <InputOTP maxLength={6} {...field}>
+                <InputOTP maxLength={6} {...field} disabled={isPending}>
                   <InputOTPGroup className="mx-auto mt-4">
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
@@ -68,9 +86,15 @@ export default function VerifyEmailForm() {
         />
 
         <div className="flex w-full flex-col justify-between space-y-4 pt-4 md:flex-row md:space-y-0">
-          <Button type="submit" className="w-full md:w-auto">
-            Verify Email
-          </Button>
+          <LoadingButton
+            type="submit"
+            className="w-full md:w-auto"
+            variant="gooeyLeft"
+            loading={isPending}
+            disabled={isPending}
+          >
+            {isPending ? "Verifying Account" : "Verify Your Account"}
+          </LoadingButton>
           <Button type="button" asChild variant="linkHover2">
             <Link href="/">Back to Home</Link>
           </Button>
@@ -79,11 +103,9 @@ export default function VerifyEmailForm() {
 
         <div className="mt-4 flex flex-col items-center justify-center text-sm md:mt-0 md:flex-row">
           <p className="text-muted-foreground">Need to send another OTP?</p>
-          <LoadingButton asChild variant="linkHover2" type="button">
-            <Link href="/forgot-password" className="-ml-3">
-              Click here
-            </Link>
-          </LoadingButton>
+          <div className="-ml-3">
+            <ResendOTPModal />
+          </div>
         </div>
       </form>
     </Form>
