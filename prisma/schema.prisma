@@ -75,6 +75,7 @@ model VerificationOTP {
   otp       String
   expiresAt DateTime
   createdAt DateTime @default(now())
+  reason    String   @default("resend")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

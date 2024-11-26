@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import ResetPasswordForm from "./ResetPasswordForm";
 import Link from "next/link";
+
 export default function ResetPasswordPage() {
   return (
     <div>

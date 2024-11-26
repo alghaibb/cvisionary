@@ -17,6 +17,11 @@ import { useState, useMemo } from "react";
 import { Check, Eye, EyeOff, X } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useTransition } from "react";
+import { resetPassword } from "./actions";
+import { z } from "zod";
+import { useSearchParams } from "next/navigation";
 
 export default function ResetPasswordForm() {
   const form = useForm<ResetPasswordValues>({
@@ -28,8 +33,11 @@ export default function ResetPasswordForm() {
   });
 
   const [isVisible, setIsVisible] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   const toggleVisibility = () => setIsVisible((prevState) => !prevState);
+  const searchParams = useSearchParams();
 
   const checkStrength = (password: string) => {
     const requirements = [
@@ -74,8 +82,15 @@ export default function ResetPasswordForm() {
     };
   }, [form.watch("newPassword")]);
 
-  async function onSubmit(data: ResetPasswordValues) {
-    console.log("Submitted Values:", data);
+  async function onSubmit(data: z.infer<typeof resetPasswordSchema>) {
+    setError(null);
+    startTransition(async () => {
+      const token = searchParams.get("token");
+      const result = await resetPassword(data, token as string);
+      if (result?.error) {
+        setError(result.error);
+      }
+    });
   }
 
   return (
@@ -84,6 +99,12 @@ export default function ResetPasswordForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 md:px-4 md:py-6"
       >
+        {error && (
+          <Alert variant="destructive">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         {/* New Password */}
         <FormField
           control={form.control}
@@ -93,7 +114,11 @@ export default function ResetPasswordForm() {
               <FormLabel>New Password</FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Input type={isVisible ? "text" : "password"} {...field} />
+                  <Input
+                    type={isVisible ? "text" : "password"}
+                    {...field}
+                    disabled={isPending}
+                  />
                   <button
                     type="button"
                     className="absolute inset-y-0 right-0 flex items-center pr-3"
@@ -154,7 +179,20 @@ export default function ResetPasswordForm() {
             <FormItem>
               <FormLabel>Confirm New Password</FormLabel>
               <FormControl>
-                <Input type="password" {...field} />
+                <div className="relative">
+                  <Input
+                    type={isVisible ? "text" : "password"}
+                    {...field}
+                    disabled={isPending}
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3"
+                    onClick={toggleVisibility}
+                  >
+                    {isVisible ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -166,8 +204,10 @@ export default function ResetPasswordForm() {
             type="submit"
             className="w-full md:w-auto"
             variant="gooeyLeft"
+            loading={isPending}
+            disabled={isPending}
           >
-            Reset Password
+            {isPending ? "Resetting Password" : "Reset Password"}
           </LoadingButton>
           <Button type="button" asChild variant="linkHover2">
             <Link href="/">Back to Home</Link>

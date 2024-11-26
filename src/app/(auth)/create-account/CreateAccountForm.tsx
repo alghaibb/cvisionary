@@ -18,8 +18,14 @@ import { Check, Eye, EyeOff, X } from "lucide-react";
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { createAccount } from "./actions";
+import { useTransition } from "react";
 
 export default function CreateAccountForm() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<CreateAccountValues>({
     resolver: zodResolver(createAccountSchema),
     defaultValues: {
@@ -79,7 +85,19 @@ export default function CreateAccountForm() {
   }, [form.watch("password")]);
 
   async function onSubmit(data: z.infer<typeof createAccountSchema>) {
-    console.log("Submitted Values:", data);
+    setError(null);
+    startTransition(() => {
+      createAccount(data)
+        .then((result) => {
+          if (result.error) {
+            setError(result.error);
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to create account:", error);
+          setError("Failed to create account. Please try again.");
+        });
+    });
   }
 
   return (
@@ -88,6 +106,12 @@ export default function CreateAccountForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 md:px-4 md:py-6"
       >
+        {error && (
+          <Alert variant="destructive">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         <div className="flex flex-col gap-4 md:grid md:grid-cols-12">
           <div className="md:col-span-6">
             <FormField
@@ -230,8 +254,10 @@ export default function CreateAccountForm() {
             type="submit"
             className="w-full md:w-auto"
             variant="gooeyLeft"
+            loading={isPending}
+            disabled={isPending}
           >
-            Create Account
+            {isPending ? "Creating Account" : "Create Account"}
           </LoadingButton>
 
           <Button type="button" asChild variant="linkHover2" className="w">
