@@ -18,6 +18,14 @@ export async function resendOTP(values: ResendOTPValues) {
       return { success: "If you have an account with us, you will receive an email with instructions on how to reset your password." };
     }
 
+    // Clear up expired OTPs
+    await prisma.verificationOTP.deleteMany({
+      where: {
+        userId: existingUser.id,
+        expiresAt: { lte: new Date() },
+      }
+    });
+
     // Check rate limit (1-minute cooldown)
     const lastOTP = await prisma.verificationOTP.findFirst({
       where: { userId: existingUser.id, reason: "resend" },

@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
+import SocialLoginButtons from "@/app/(auth)/(oauth)/_components/SocialLoginButtons";
 
 export default function LoginPage() {
   return (
@@ -12,6 +14,14 @@ export default function LoginPage() {
         <p className="text-start text-sm text-muted-foreground md:text-center">
           Enter your credentials to access your account.
         </p>
+        <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+          OR
+        </p>
+        <Separator />
+      </div>
+      <div className="mb-6 space-y-6 text-center">
+        <SocialLoginButtons />
+        <Separator />
       </div>
       <LoginForm />
       <div className="mt-4 flex items-center justify-center text-sm md:mt-0">

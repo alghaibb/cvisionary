@@ -25,7 +25,7 @@ import { Separator } from "@/components/ui/separator";
 import React, { useState, useTransition } from "react";
 import { verifyAccount } from "./actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import ResendOTPModal from "../(resend-otp)/ResendOTPModal";
+import ResendOTPModal from "@/app/(auth)/(resend-otp)/_components/ResendOTPModal";
 
 export default function VerifyEmailForm() {
   const [isPending, startTransition] = useTransition();

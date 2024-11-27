@@ -15,7 +15,7 @@ import { Button, LoadingButton } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ResendOTPSchema, ResendOTPValues } from "@/schemas";
 import React, { useState, useTransition } from "react";
-import { resendOTP } from "./actions";
+import { resendOTP } from "../actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import ResponsiveModal from "@/components/ResponsiveModal";
 
