@@ -9,8 +9,9 @@ import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 import { v4 as uuid } from "uuid";
 import { getUserFromDb } from "./utils/db/user";
-
 import prisma from "./lib/prisma";
+import { env } from "./env";
+
 
 const adapter = PrismaAdapter(prisma) as Adapter;
 
@@ -18,13 +19,13 @@ const authConfig: NextAuthConfig = {
   adapter,
   providers: [
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
     Facebook({
-      clientId: process.env.FACEBOOK_CLIENT_ID!,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
+      clientId: env.FACEBOOK_CLIENT_ID,
+      clientSecret: env.FACEBOOK_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
     Credentials({
@@ -81,7 +82,7 @@ const authConfig: NextAuthConfig = {
     signIn: "/login",
     signOut: "/login",
   },
-  secret: process.env.AUTH_SECRET!,
+  secret: env.AUTH_SECRET,
   experimental: { enableWebAuthn: true },
 }
 
