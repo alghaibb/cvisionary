@@ -5,8 +5,9 @@ import {
   ResendOTPEmail,
 } from "@/components/emails";
 import { getUserByEmail } from "@/utils/db/user";
+import { env } from "@/env";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(env.RESEND_API_KEY);
 
 /**
  * Sends an email using Resend.
@@ -62,7 +63,7 @@ export const sendResetPasswordEmail = async (
   const user = await getUserByEmail(email);
   const userFirstName = user?.firstName || firstName;
 
-  const resetPasswordLink = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${token}`;
+  const resetPasswordLink = `${env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${token}`;
   const emailComponent = (
     <ResetPasswordEmail
       firstName={userFirstName}
