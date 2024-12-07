@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ResetPasswordSkeleton } from "./_components/ResetPasswordSkeleton";
 
-export default async function ResetPasswordPage() {
+export default function ResetPasswordPage() {
   return (
     <div>
       <div className="mb-6 space-y-2 text-center">
