@@ -11,6 +11,7 @@ import {
   Text,
 } from "@react-email/components";
 import * as React from "react";
+import { env } from "@/env";
 
 interface CVisionaryResetPasswordEmailProps {
   firstName?: string;
@@ -21,7 +22,7 @@ export const ResetPasswordEmail = ({
   firstName,
   resetPasswordLink,
 }: CVisionaryResetPasswordEmailProps) => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const baseUrl = env.NEXT_PUBLIC_BASE_URL;
   return (
     <Html>
       <Head />

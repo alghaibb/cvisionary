@@ -3,18 +3,13 @@ import {
   VerifyAccountEmail,
   ResetPasswordEmail,
   ResendOTPEmail,
+  MagicLinkEmail,
 } from "@/components/emails";
 import { getUserByEmail } from "@/utils/db/user";
 import { env } from "@/env";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-/**
- * Sends an email using Resend.
- * @param to - Recipient's email address.
- * @param subject - Subject of the email.
- * @param reactComponent - React email component to send.
- */
 async function sendEmail(
   to: string,
   subject: string,
@@ -33,11 +28,6 @@ async function sendEmail(
   }
 }
 
-/**
- * Sends a verification email with OTP to the user.
- * @param email - User's email.
- * @param otp - One-time password.
- */
 export const sendVerifyAccountEmail = async (email: string, otp: string) => {
   const user = await getUserByEmail(email);
   if (!user || !user.firstName) {
@@ -50,11 +40,6 @@ export const sendVerifyAccountEmail = async (email: string, otp: string) => {
   await sendEmail(email, "Verify your account", emailComponent);
 };
 
-/**
- * Sends a reset password email with a reset token to the user.
- * @param email - User's email.
- * @param token - Reset password token.
- */
 export const sendResetPasswordEmail = async (
   email: string,
   firstName: string,
@@ -73,11 +58,6 @@ export const sendResetPasswordEmail = async (
   await sendEmail(email, "Reset your password", emailComponent);
 };
 
-/**
- * Resends the verification email with OTP to the user.
- * @param email - User's email.
- * @param otp - One-time password.
- */
 export const resendVerifyAccountEmail = async (email: string, otp: string) => {
   const user = await getUserByEmail(email);
   if (!user || !user.firstName) {
@@ -89,4 +69,18 @@ export const resendVerifyAccountEmail = async (email: string, otp: string) => {
   );
 
   await sendEmail(email, "Resend OTP", emailComponent);
+};
+
+export const sendMagicLinkEmail = async (email: string, token: string) => {
+  const user = await getUserByEmail(email);
+  if (!user || !user.firstName) {
+    throw new Error("User not found or missing first name.");
+  }
+
+  const magicLinkUrl = `${env.NEXT_PUBLIC_BASE_URL}/magic-link/verify?token=${token}`;
+  const emailComponent = (
+    <MagicLinkEmail userFirstname={user.firstName} magicLink={magicLinkUrl} />
+  );
+
+  await sendEmail(email, "Sign in to CVisionary", emailComponent);
 };

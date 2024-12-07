@@ -96,6 +96,17 @@ model ResetPasswordToken {
   @@map("reset_password_tokens")
 }
 
+model MagicLink {
+  id         String   @id @default(cuid())
+  identifier String   @unique
+  token      String   @unique
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([token, identifier])
+  @@map("magic_links")
+}
+
 model FailedLoginAttempt {
   id        String   @id @default(cuid())
   userId    String

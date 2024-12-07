@@ -4,18 +4,48 @@ import prisma from "@/lib/prisma";
 // Function to get session from prisma using session token
 export async function getSession() {
   const cookieStore = await cookies();
-  const sessionToken = cookieStore.get(
+  const possibleTokens = [
     process.env.NODE_ENV === "production"
       ? "__Secure-next-auth.session-token"
-      : "next-auth.session-token"
-  );
+      : "next-auth.session-token",
+    "authjs.session-token",
+  ];
+
+  // Find the first available session token
+  let sessionToken;
+  for (const tokenName of possibleTokens) {
+    const cookie = cookieStore.get(tokenName);
+    if (cookie) {
+      sessionToken = cookie.value;
+      break;
+    }
+  }
 
   if (!sessionToken) return null;
 
-  // Get session from prisma
+  // Get session from Prisma
   const session = await prisma.session.findUnique({
-    where: { sessionToken: sessionToken.value }
+    where: { sessionToken },
+    include: { user: true },
   });
 
   return session;
+}
+
+export async function getUserFromSession() {
+  const session = await getSession();
+
+  if (!session || !session.user) return null;
+
+  const { user } = session;
+
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    emailVerified: user.emailVerified,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
 }

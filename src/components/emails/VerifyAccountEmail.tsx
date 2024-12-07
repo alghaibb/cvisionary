@@ -10,15 +10,16 @@ import {
   Text,
 } from "@react-email/components";
 import * as React from "react";
+import { env } from "@/env";
 
 interface CVisionaryVerifyAccountEmailProps {
   userFirstname: string;
-  otp: string; 
+  otp: string;
 }
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-  ? `https://${process.env.NEXT_PUBLIC_BASE_URL}`
-  : "http://localhost:3000"; 
+const baseUrl = env.NEXT_PUBLIC_BASE_URL
+  ? `https://${env.NEXT_PUBLIC_BASE_URL}`
+  : "http://localhost:3000";
 
 export const VerifyAccountEmail = ({
   userFirstname,
@@ -31,7 +32,7 @@ export const VerifyAccountEmail = ({
       <Body style={main}>
         <Container style={container}>
           <Img
-            src={`${baseUrl}/static/cvisionary-logo.png`} 
+            src={`${baseUrl}/static/cvisionary-logo.png`}
             width="40"
             height="40"
             alt="CVisionary"

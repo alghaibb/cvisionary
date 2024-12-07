@@ -1,4 +1,3 @@
-/* eslint-disable import/named */
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth, { User } from "next-auth";
 import type { NextAuthConfig } from "next-auth";
@@ -11,7 +10,7 @@ import { v4 as uuid } from "uuid";
 import { getUserFromDb } from "./utils/db/user";
 import prisma from "./lib/prisma";
 import { env } from "./env";
-
+import EmailProvider from "next-auth/providers/resend";
 
 const adapter = PrismaAdapter(prisma) as Adapter;
 
@@ -27,6 +26,17 @@ const authConfig: NextAuthConfig = {
       clientId: env.FACEBOOK_CLIENT_ID,
       clientSecret: env.FACEBOOK_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
+    }),
+    EmailProvider({
+      server: {
+        host: env.EMAIL_SERVER_HOST,
+        port: env.EMAIL_SERVER_PORT,
+        auth: {
+          user: env.EMAIL_SERVER_USER,
+          pass: env.EMAIL_SERVER_PASS,
+        },
+      },
+      from: env.EMAIL_FROM,
     }),
     Credentials({
       credentials: {
@@ -47,43 +57,75 @@ const authConfig: NextAuthConfig = {
     }),
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      if (!account || !profile) {
+        return true;
+      }
+
+      // Check if the user already exists
+      const existingUser = await prisma.user.findUnique({
+        where: { email: user.email as string },
+      });
+
+      // If the user doesn't exist, create a new one
+      if (!existingUser) {
+        await prisma.user.create({
+          data: {
+            email: user.email ?? "",
+            firstName: profile?.given_name ?? "",
+            lastName: profile?.family_name ?? "",
+            emailVerified: new Date(),
+          },
+        });
+      }
+
+      return true;
+    },
     async jwt({ token, account }) {
       if (account?.provider === "credentials") {
-        token.credentials = true
+        token.credentials = true;
       }
-      return token
+      if (account?.provider === "email") {
+        token.sub = account.userId;
+      }
+      return token;
     },
   },
   jwt: {
     encode: async function (params) {
       if (params.token?.credentials) {
-        const sessionToken = uuid()
+        const sessionToken = uuid();
 
         if (!params.token.sub) {
-          throw new Error("No user ID found in token")
+          throw new Error("No user ID found in token");
         }
 
-        const createdSession = await adapter?.createSession?.({
+        const userId = params.token.sub;
+        if (!adapter.createSession) {
+          throw new Error("createSession method is not defined on the adapter");
+        }
+        const createdSession = await adapter.createSession({
           sessionToken: sessionToken,
-          userId: params.token.sub,
+          userId: userId,
           expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-        })
+        });
 
         if (!createdSession) {
-          throw new Error("Failed to create session")
+          throw new Error("Failed to create session");
         }
 
-        return sessionToken
+        return sessionToken;
       }
-      return defaultEncode(params)
+      return defaultEncode(params);
     },
   },
   pages: {
     signIn: "/login",
     signOut: "/login",
+    error: "/login",
   },
   secret: env.AUTH_SECRET,
   experimental: { enableWebAuthn: true },
-}
+};
 
-export const { handlers, signIn, signOut, auth } = NextAuth(authConfig)
+export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);

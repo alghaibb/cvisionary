@@ -1,5 +1,6 @@
 import {
   Body,
+  Button,
   Container,
   Head,
   Html,
@@ -9,20 +10,23 @@ import {
   Section,
   Text,
 } from "@react-email/components";
+import * as React from "react";
 import { env } from "@/env";
 
-interface ResendOTPEmailProps {
+interface MagicLinkEmailProps {
   userFirstname: string;
-  otp: string;
+  magicLink: string;
 }
 
-const baseUrl = env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-export const ResendOTPEmail = ({ userFirstname, otp }: ResendOTPEmailProps) => {
+export const MagicLinkEmail = ({
+  userFirstname,
+  magicLink,
+}: MagicLinkEmailProps) => {
+  const baseUrl = env.NEXT_PUBLIC_BASE_URL;
   return (
     <Html>
       <Head />
-      <Preview>Your Resend OTP from CVisionary</Preview>
+      <Preview>Sign in to CVisionary with your magic link</Preview>
       <Body style={main}>
         <Container style={container}>
           <Img
@@ -35,21 +39,16 @@ export const ResendOTPEmail = ({ userFirstname, otp }: ResendOTPEmailProps) => {
           <Section>
             <Text style={text}>Hello {userFirstname},</Text>
             <Text style={text}>
-              Here&apos;s your new OTP for verifying your CVisionary account:
+              Click the button below to securely sign in to your CVisionary
+              account. This link will expire in 15 minutes.
             </Text>
-            <Text
-              style={{
-                ...text,
-                fontSize: "24px",
-                fontWeight: "bold",
-                textAlign: "center",
-              }}
-            >
-              {otp}
-            </Text>
+            <Section style={{ textAlign: "center", marginTop: "20px" }}>
+              <Button href={magicLink} style={button}>
+                Sign In to CVisionary
+              </Button>
+            </Section>
             <Text style={text}>
-              Please use this OTP within the next 15 minutes. If you did not
-              request this, you can safely ignore it.
+              If you didn’t request this email, you can safely ignore it.
             </Text>
             <Text style={text}>
               For assistance, visit our{" "}
@@ -66,7 +65,7 @@ export const ResendOTPEmail = ({ userFirstname, otp }: ResendOTPEmailProps) => {
   );
 };
 
-export default ResendOTPEmail;
+export default MagicLinkEmail;
 
 const main = {
   backgroundColor: "#f8fafc",
@@ -85,6 +84,20 @@ const text = {
   fontFamily: "'Arial', sans-serif",
   color: "#374151",
   lineHeight: "24px",
+};
+
+const button = {
+  backgroundColor: "#09090b",
+  borderRadius: "6px",
+  color: "#ffffff",
+  fontFamily: "'Arial', sans-serif",
+  fontSize: "16px",
+  textDecoration: "none",
+  textAlign: "center" as const,
+  display: "block",
+  width: "200px",
+  padding: "12px",
+  margin: "20px auto",
 };
 
 const anchor = {

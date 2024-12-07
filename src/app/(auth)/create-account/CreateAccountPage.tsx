@@ -20,7 +20,7 @@ export default function CreateAccountPage() {
         <p className="text-muted-foreground">Already have an account? </p>
         <Button asChild variant="linkHover2" type="button">
           <Link href="/login" className="-ml-3">
-            Login here
+            Log In here
           </Link>
         </Button>
       </div>
