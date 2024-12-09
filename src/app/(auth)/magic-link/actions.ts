@@ -9,7 +9,7 @@ import { getUserByEmail } from "@/utils/db/user";
 export async function sendMagicLink(values: MagicLinkValues) {
   try {
     const validatedData = magicLinkSchema.parse(values);
-    const { email } = validatedData;
+    const { firstName, lastName, email } = validatedData;
 
     const lowerCaseEmail = email.toLowerCase();
 
@@ -19,8 +19,9 @@ export async function sendMagicLink(values: MagicLinkValues) {
     if (!user) {
       user = await prisma.user.create({
         data: {
+          firstName,
+          lastName,
           email: lowerCaseEmail,
-          firstName: "Guest",
         },
       });
     }
