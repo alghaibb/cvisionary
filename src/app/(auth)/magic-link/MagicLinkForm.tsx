@@ -120,6 +120,7 @@ export default function MagicLinkForm() {
           loading={isPending}
           disabled={isPending}
           className="w-full md:w-auto"
+          variant="gooeyLeft"
         >
           {isPending ? "Sending Magic Link..." : "Send Magic Link"}
         </LoadingButton>

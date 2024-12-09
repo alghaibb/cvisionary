@@ -22,8 +22,10 @@ export default function CreateAccountPage() {
       <div className="mb-6 space-y-6 text-center">
         <SocialLoginButtons
           buttonConfig={{
-            facebookText: "Sign up with Facebook",
-            googleText: "Sign up with Google",
+            facebookText: "Create Account with Facebook",
+            googleText: "Create Account with Google",
+            googleLoadingText: "Creating Account with Google...",
+            facebookLoadingText: "Creating Account with Facebook...",
           }}
         />
         <Separator />

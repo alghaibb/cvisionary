@@ -9,6 +9,8 @@ interface SocialLoginButtonConfig {
   googleText?: string;
   facebookText?: string;
   provider?: "google" | "facebook";
+  googleLoadingText?: string;
+  facebookLoadingText?: string;
 }
 
 export default function SocialLoginButtons({
@@ -29,39 +31,41 @@ export default function SocialLoginButtons({
         await facebookLogin();
       }
     } finally {
-      setLoadingProvider(null); // Reset loading state
+      setLoadingProvider(null);
     }
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       {/* Google Login Button */}
       <LoadingButton
-        className="bg-[#DB4437] text-white after:flex-1 hover:bg-[#DB4437]/90"
+        className="after:flex-1"
         type="button"
         onClick={() => socialLogin("google")}
-        loading={loadingProvider === "google"} // Show loading only for Google
+        loading={loadingProvider === "google"}
+        variant="shine"
       >
-        <span className="pointer-events-none me-2 flex-1">
+        <span className="flex-1 pointer-events-none me-2">
           <RiGoogleFill className="opacity-60" size={16} aria-hidden="true" />
         </span>
         {loadingProvider === "google"
-          ? "Logging in with Google..."
+          ? buttonConfig?.googleLoadingText || "Logging in with Google..."
           : buttonConfig?.googleText || "Login with Google"}
       </LoadingButton>
 
       {/* Facebook Login Button */}
       <LoadingButton
-        className="bg-[#1877f2] text-white after:flex-1 hover:bg-[#1877f2]/90"
+        className="after:flex-1"
         type="button"
         onClick={() => socialLogin("facebook")}
-        loading={loadingProvider === "facebook"} // Show loading only for Facebook
+        loading={loadingProvider === "facebook"}
+        variant="shine"
       >
-        <span className="pointer-events-none me-2 flex-1">
+        <span className="flex-1 pointer-events-none me-2">
           <RiFacebookFill className="opacity-60" size={16} aria-hidden="true" />
         </span>
         {loadingProvider === "facebook"
-          ? "Logging in with Facebook..."
+          ? buttonConfig?.facebookLoadingText || "Logging in with Facebook..."
           : buttonConfig?.facebookText || "Login with Facebook"}
       </LoadingButton>
     </div>
