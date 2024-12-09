@@ -19,7 +19,6 @@ export async function resetPassword(values: ResetPasswordValues, token: string) 
       return { error: "Passwords do not match." };
     }
 
-
     // Fetch the reset password token and associated user
     const resetPasswordToken = await prisma.resetPasswordToken.findFirst({
       where: { token },

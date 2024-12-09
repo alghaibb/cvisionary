@@ -19,7 +19,7 @@ export async function login(values: LoginValues) {
     // Check if user exists
     const existingUser = await getUserByEmail(lowercaseEmail);
 
-    if (!existingUser) {
+    if (!existingUser || !existingUser.password) {
       return { error: "Incorrect email or password." };
     }
 

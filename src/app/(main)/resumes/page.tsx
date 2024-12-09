@@ -1,12 +1,5 @@
-import { getSession } from "@/utils/session";
-import { redirect } from "next/navigation";
+import { withAuth } from "@/utils/withAuth";
 
-export default async function Page() {
-  const session = await getSession();
-
-  if (!session) {
-    redirect("/login");
-  }
-
+export default withAuth(async function Page() {
   return <main>Resumes</main>;
-}
+});
