@@ -36,7 +36,7 @@ export async function login(values: LoginValues) {
       password,
     })
 
-    redirect("/")
+    redirect("/resumes");
 
   } catch (error) {
     if (isRedirectError(error)) throw error;

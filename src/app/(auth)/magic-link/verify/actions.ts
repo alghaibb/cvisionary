@@ -36,7 +36,7 @@ export async function validateMagicLink(token: string) {
     data: {
       sessionToken,
       userId: user.id,
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), 
     },
   });
 
@@ -63,6 +63,6 @@ export async function validateMagicLink(token: string) {
 
   return {
     success: true,
-    redirectUrl: "/resume",
+    redirectUrl: "/resumes",
   };
 }
