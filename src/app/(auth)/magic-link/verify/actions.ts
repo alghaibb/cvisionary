@@ -40,14 +40,20 @@ export async function validateMagicLink(token: string) {
     },
   });
 
+
+
+  const cookieKey =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-authjs.session-token"
+      : "next-auth.session-token";
+
   // Attach the session token to cookies
   (await
     // Attach the session token to cookies
-    cookies()).set("next-auth.session-token", sessionToken, {
+    cookies()).set(cookieKey, sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 30 * 24 * 60 * 60, // 30 days
-      path: "/",
     });
 
   // Delete the magic link
