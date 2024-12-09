@@ -27,7 +27,7 @@ export default function VerifyMagicLink() {
           setError(error);
           return;
         } else if (success) {
-          router.push("/resume");
+          router.push("/resumes");
         }
       } catch (err) {
         const errorMessage =
