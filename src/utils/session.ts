@@ -6,7 +6,7 @@ export async function getSession() {
   const cookieStore = await cookies();
   const possibleTokens = [
     process.env.NODE_ENV === "production"
-      ? "__Secure-next-auth.session-token"
+      ? "__Secure-authjs.session-token"
       : "next-auth.session-token",
     "authjs.session-token",
   ];
