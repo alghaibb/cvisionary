@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
-import "./globals.css";
 import { SessionProvider } from "next-auth/react";
-import { NO_HEADER_FOOTER_ROUTES } from "@/lib/constants";
-import Navbar from "@/components/Navbar";
+import { getSession } from "@/utils/session";
+import "./globals.css";
+import Header from "@/components/header/Header";
 
 const jost = Jost({ subsets: ["latin"] });
 
@@ -15,23 +15,17 @@ export const metadata: Metadata = {
   description: "CVisionary is a platform for creating and sharing CVs.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname =
-    typeof window !== "undefined" ? window.location.pathname : "";
-
-  if (NO_HEADER_FOOTER_ROUTES.some((route) => route.test(pathname))) {
-    return <>{children}</>;
-  }
-
+  const session = await getSession();
   return (
-    <SessionProvider>
-      <html lang="en">
+    <SessionProvider session={session}>
+      <html lang="en" suppressHydrationWarning>
         <body className={`${jost.className} antialiased`}>
-          <Navbar />
+          <Header />
           {children}
         </body>
       </html>

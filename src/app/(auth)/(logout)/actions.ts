@@ -2,6 +2,7 @@
 
 import { getSession } from "@/utils/session";
 import { signOut } from "@/auth";
+
 export async function logout() {
   const session = getSession();
 

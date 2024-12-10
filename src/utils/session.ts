@@ -29,7 +29,12 @@ export async function getSession() {
     include: { user: true },
   });
 
-  return session;
+  if (!session) return null;
+
+  return {
+    ...session,
+    expires: session.expires.toISOString(),
+  };
 }
 
 export async function getUserFromSession() {
