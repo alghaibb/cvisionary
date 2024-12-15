@@ -4,6 +4,8 @@ import { SessionProvider } from "next-auth/react";
 import { getSession } from "@/utils/session";
 import "./globals.css";
 import Header from "@/components/header/Header";
+import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/toaster";
 
 const jost = Jost({ subsets: ["latin"] });
 
@@ -24,9 +26,21 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en" suppressHydrationWarning>
-        <body className={`${jost.className} antialiased`}>
-          <Header />
-          {children}
+        <body
+          className={`${jost.className} relative flex min-h-screen flex-col antialiased`}
+        >
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <main className="flex-grow">
+              <Header />
+              {children}
+            </main>
+            <Toaster />
+          </ThemeProvider>
         </body>
       </html>
     </SessionProvider>
