@@ -6,9 +6,10 @@ export default async function Header() {
   const user = session?.user;
 
   return (
-    <header>
-      {/* Pass user data to Navbar */}
-      <Navbar user={user} />
+    <header className="w-full border-b border-muted bg-background">
+      <div className="w-full mx-auto max-w-7xl">
+        <Navbar user={user} />
+      </div>
     </header>
   );
 }
