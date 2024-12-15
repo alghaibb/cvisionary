@@ -8,19 +8,19 @@ export default function LoginPage() {
   return (
     <div>
       <div className="mb-6 space-y-2 text-center">
-        <h1 className="text-start text-2xl font-semibold md:text-center">
+        <h1 className="text-2xl font-semibold text-start md:text-center">
           Login
         </h1>
-        <p className="text-start text-sm text-muted-foreground md:text-center">
+        <p className="text-sm text-start text-muted-foreground md:text-center">
           Enter your credentials to access your account.
         </p>
-        <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted-foreground"></p>
+        <p className="text-xs font-semibold tracking-widest text-center uppercase text-muted-foreground"></p>
         <Separator />
       </div>
       <div className="mb-6 space-y-6 text-center">
         <SocialLoginButtons />
         <Separator />
-        <div className="mt-4 flex flex-col items-center justify-center text-sm md:mt-0 md:flex-row">
+        <div className="flex flex-col items-center justify-center mt-4 text-sm md:mt-0 md:flex-row">
           <p className="text-muted-foreground">
             Prefer to continue with email?
           </p>
@@ -29,9 +29,9 @@ export default function LoginPage() {
           </Button>
         </div>
       </div>
-      <Separator />
+      <Separator className="my-6 md:my-0" />
       <LoginForm />
-      <div className="mt-4 flex items-center justify-center text-sm md:mt-0">
+      <div className="flex items-center justify-center mt-4 text-sm md:mt-0">
         <p className="text-muted-foreground">Don&apos;t have an account? </p>
         <Button asChild variant="linkHover2" type="button">
           <Link href="/create-account" className="-ml-3">

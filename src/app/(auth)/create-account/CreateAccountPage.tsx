@@ -38,7 +38,7 @@ export default function CreateAccountPage() {
           </Button>
         </div>
       </div>
-      <Separator />
+      <Separator className="my-6 md:my-0" />
 
       {/* Registration Form */}
       <RegisterForm />
