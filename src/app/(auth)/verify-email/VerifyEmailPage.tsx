@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import VerifyEmailForm from "./VerifyEmailForm";
 
 export default function VerifyEmailPage() {
@@ -8,6 +9,7 @@ export default function VerifyEmailPage() {
         <p className="text-sm text-muted-foreground">
           Enter the 6-digit OTP sent to your email to verify your account.
         </p>
+        <Separator />
       </div>
       <VerifyEmailForm />
     </div>
