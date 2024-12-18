@@ -9,7 +9,7 @@ export default function LoginPage() {
     <div>
       <div className="mb-6 space-y-2 text-center">
         <h1 className="text-2xl font-semibold text-start md:text-center">
-          Login
+          Login to Your Account
         </h1>
         <p className="text-sm text-start text-muted-foreground md:text-center">
           Enter your credentials to access your account.

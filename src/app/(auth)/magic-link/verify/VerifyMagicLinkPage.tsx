@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { VerifyMagicLinkSkeleton } from "./_components/VerifyMagicLinkSkeleton";
 import VerifyMagicLink from "./VerifyMagicLink";
+import { Separator } from "@/components/ui/separator";
 
 export default function VerifyMagicLinkPage() {
   return (
@@ -10,6 +11,7 @@ export default function VerifyMagicLinkPage() {
         <p className="mt-2 text-sm text-muted-foreground">
           We are validating your link. Please wait a moment.
         </p>
+        <Separator />
       </div>
       <Suspense fallback={<VerifyMagicLinkSkeleton />}>
         <VerifyMagicLink />

@@ -4,7 +4,11 @@ import { LoadingButton } from "@/components/ui/button";
 import { useTransition } from "react";
 import { logout } from "../actions";
 
-export default function LogoutButton() {
+interface LogoutButtonProps {
+  className?: string;
+}
+
+export default function LogoutButton({ className }: LogoutButtonProps) {
   const [isPending, startTransition] = useTransition();
 
   function handleClick() {
@@ -19,6 +23,7 @@ export default function LogoutButton() {
       loading={isPending}
       disabled={isPending}
       variant="gooeyLeft"
+      className={className}
     >
       {isPending ? "Logging out..." : "Logout"}
     </LoadingButton>

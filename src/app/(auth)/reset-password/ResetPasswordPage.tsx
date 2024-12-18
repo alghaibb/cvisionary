@@ -3,6 +3,7 @@ import ResetPasswordForm from "./ResetPasswordForm";
 import Link from "next/link";
 import { Suspense } from "react";
 import { ResetPasswordSkeleton } from "./_components/ResetPasswordSkeleton";
+import { Separator } from "@/components/ui/separator";
 
 export default function ResetPasswordPage() {
   return (
@@ -12,12 +13,13 @@ export default function ResetPasswordPage() {
         <p className="mt-2 text-sm text-muted-foreground">
           Enter your new password and confirm it to reset your account password.
         </p>
+        <Separator />
       </div>
       <Suspense fallback={<ResetPasswordSkeleton />}>
         <ResetPasswordForm />
       </Suspense>
 
-      <div className="flex flex-col items-center justify-center mt-6 text-sm md:mt-0 md:flex-row">
+      <div className="mt-6 flex flex-col items-center justify-center text-sm md:mt-0 md:flex-row">
         <p className="text-muted-foreground">
           Need to send another reset link?
         </p>
