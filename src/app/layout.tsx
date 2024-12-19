@@ -27,7 +27,7 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${jost.className} relative flex min-h-screen flex-col antialiased`}
+          className={`${jost.className} mx-auto min-h-screen w-full scroll-smooth bg-background antialiased`}
         >
           <ThemeProvider
             attribute="class"

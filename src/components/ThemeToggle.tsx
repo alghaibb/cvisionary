@@ -4,12 +4,16 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
-export default function ThemeToggle() {
+interface ThemeToggleProps {
+  className?: string;
+}
+
+export default function ThemeToggle({ className }: ThemeToggleProps) {
   const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Delay rendering until the component is mounted
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -18,16 +22,27 @@ export default function ThemeToggle() {
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
-  if (!mounted) return null; // Avoid hydration mismatch
+  if (!mounted) return null;
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme}>
-      {resolvedTheme === "dark" ? (
-        <Sun className="w-5 h-5" aria-hidden="true" />
-      ) : (
-        <Moon className="w-5 h-5" aria-hidden="true" />
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleTheme}
+      className={cn(
+        "flex h-10 w-40 items-center justify-center gap-2",
+        className,
       )}
-      <span className="sr-only">Toggle theme</span>
+    >
+      {resolvedTheme === "dark" ? (
+        <>
+          <Sun className="h-5 w-5" aria-hidden="true" />
+        </>
+      ) : (
+        <>
+          <Moon className="h-5 w-5" aria-hidden="true" />
+        </>
+      )}
     </Button>
   );
 }

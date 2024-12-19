@@ -9,6 +9,6 @@ export const NO_HEADER_FOOTER_ROUTES = [
 ];
 
 export const NAVIGATION_LINKS = [
-  { href: "/features", label: "Features" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/resumes", label: "My Resumes" },
+  { href: "/contact", label: "Contact" },
 ];

@@ -6,7 +6,7 @@ import { User } from "@prisma/client";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import Logo from "@/assets/logo.png";
+import logo from "@/assets/logo.png";
 import MobileNav from "./MobileNav";
 import UserButton from "./_components/UserButton";
 
@@ -28,7 +28,7 @@ export default function Navbar({ user }: { user?: User }) {
   return (
     <nav className="flex items-center justify-between p-9">
       <Link href="/" className="flex items-center gap-2">
-        <Image src={Logo} alt="logo" width={35} height={35} priority />
+        <Image src={logo} alt="logo" width={35} height={35} priority />
         <span className="text-2xl font-semibold tracking-tighter md:text-3xl">
           CVisionary
         </span>
@@ -38,11 +38,16 @@ export default function Navbar({ user }: { user?: User }) {
 
       <div className="items-center hidden gap-4 md:flex">
         {NAVIGATION_LINKS.map((link) => (
-          <Link href={link.href} key={link.href}>
-            <Button asChild variant="linkHover2">
+          <Button
+            asChild
+            key={link.href}
+            variant="ghost"
+            className="hover:bg-background"
+          >
+            <Link href={link.href}>
               <span>{link.label}</span>
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         ))}
       </div>
 
@@ -50,7 +55,7 @@ export default function Navbar({ user }: { user?: User }) {
         {user ? (
           <div className="flex items-center gap-6">
             <UserButton user={user} />
-            <Button asChild variant="gooeyLeft">
+            <Button asChild variant="shine">
               <Link href="/create-resume">Create Resume</Link>
             </Button>
           </div>
