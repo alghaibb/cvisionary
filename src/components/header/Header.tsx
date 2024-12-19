@@ -6,7 +6,7 @@ export default async function Header() {
   const user = session?.user;
 
   return (
-    <header className="w-full border-b border-muted bg-background">
+    <header className="sticky top-0 z-50 w-full border-b border-muted bg-background/10 backdrop-blur-lg">
       <div className="w-full mx-auto max-w-7xl">
         <Navbar user={user} />
       </div>

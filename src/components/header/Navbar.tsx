@@ -26,7 +26,7 @@ export default function Navbar({ user }: { user?: User }) {
   }
 
   return (
-    <nav className="flex items-center justify-between p-9">
+    <nav className="flex items-center justify-between p-6 md:p-9">
       <Link href="/" className="flex items-center gap-2">
         <Image src={logo} alt="logo" width={35} height={35} priority />
         <span className="text-2xl font-semibold tracking-tighter md:text-3xl">

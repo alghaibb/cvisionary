@@ -10,5 +10,4 @@ export const NO_HEADER_FOOTER_ROUTES = [
 
 export const NAVIGATION_LINKS = [
   { href: "/resumes", label: "My Resumes" },
-  { href: "/contact", label: "Contact" },
 ];
