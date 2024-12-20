@@ -16,6 +16,7 @@ import { Menu } from "lucide-react";
 import { User } from "@prisma/client";
 import LogoutButton from "@/app/(auth)/(logout)/_components/LogoutButton";
 import { Separator } from "../ui/separator";
+import ThemeToggle from "../ThemeToggle";
 
 export default function MobileNav({ user }: { user?: User }) {
   const pathname = usePathname();
@@ -32,7 +33,7 @@ export default function MobileNav({ user }: { user?: User }) {
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon">
-            <Menu className="w-6 h-6" />
+            <Menu className="h-6 w-6" />
             <span className="sr-only">Open mobile navigation</span>
           </Button>
         </SheetTrigger>
@@ -44,7 +45,7 @@ export default function MobileNav({ user }: { user?: User }) {
             Main navigation for the site
           </SheetDescription>
           {user && (
-            <div className="flex flex-col items-center justify-center py-6 space-y-4">
+            <div className="flex flex-col items-center justify-center space-y-4 py-6">
               <p className="font-medium">Welcome, {user.firstName}!</p>
               <Separator />
             </div>
@@ -59,7 +60,7 @@ export default function MobileNav({ user }: { user?: User }) {
             ))}
           </nav>
 
-          <div className="flex flex-col gap-4 mt-6">
+          <div className="mt-6 flex flex-col gap-4">
             {user ? (
               <SheetClose asChild>
                 <LogoutButton />
@@ -79,32 +80,39 @@ export default function MobileNav({ user }: { user?: User }) {
               </>
             )}
           </div>
-          {/* Footer Section */}
-          <footer className="pt-4 mt-8 space-y-2 border-t border-muted">
-            <Link href="/about" className="block text-sm text-muted-foreground">
+
+          <footer className="mt-8 space-y-2 border-t border-muted pt-4">
+            <Link
+              href="/about"
+              className="block text-sm text-muted-foreground dark:text-foreground"
+            >
               About Us
             </Link>
             <Link
               href="/contact"
-              className="block text-sm text-muted-foreground"
+              className="block text-sm text-muted-foreground dark:text-foreground"
             >
               Contact Us
             </Link>
             <Link
               href="/privacy-policy"
-              className="block text-sm text-muted-foreground"
+              className="block text-sm text-muted-foreground dark:text-foreground"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms-of-service"
-              className="block text-sm text-muted-foreground"
+              className="block text-sm text-muted-foreground dark:text-foreground"
             >
               Terms of Service
             </Link>
-            <Link href="/help" className="block text-sm text-muted-foreground">
+            <Link
+              href="/help"
+              className="block text-sm text-muted-foreground dark:text-foreground"
+            >
               Help / FAQ
             </Link>
+            <ThemeToggle className="w-fit bg-background dark:bg-background" />
           </footer>
         </SheetContent>
       </Sheet>
