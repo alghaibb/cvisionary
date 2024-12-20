@@ -8,7 +8,11 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { NO_HEADER_FOOTER_ROUTES, NAVIGATION_LINKS } from "@/lib/constants";
+import {
+  NO_HEADER_FOOTER_ROUTES,
+  MOBILE_NAVIGATION_LINKS,
+  FOOTER_LINKS,
+} from "@/lib/constants";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -44,14 +48,19 @@ export default function MobileNav({ user }: { user?: User }) {
             {" "}
             Main navigation for the site
           </SheetDescription>
-          {user && (
+          {user ? (
             <div className="flex flex-col items-center justify-center space-y-4 py-6">
               <p className="font-medium">Welcome, {user.firstName}!</p>
               <Separator />
             </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center space-y-4 py-6">
+              <p className="font-medium">Welcome, Guest!</p>
+              <Separator />
+            </div>
           )}
           <nav className="space-y-4">
-            {NAVIGATION_LINKS.map((link) => (
+            {MOBILE_NAVIGATION_LINKS.map((link) => (
               <SheetClose asChild key={link.href}>
                 <Link href={link.href} className="block font-medium">
                   {link.label}
@@ -80,38 +89,16 @@ export default function MobileNav({ user }: { user?: User }) {
               </>
             )}
           </div>
-
           <footer className="mt-8 space-y-2 border-t border-muted pt-4">
-            <Link
-              href="/about"
-              className="block text-sm text-muted-foreground dark:text-foreground"
-            >
-              About Us
-            </Link>
-            <Link
-              href="/contact"
-              className="block text-sm text-muted-foreground dark:text-foreground"
-            >
-              Contact Us
-            </Link>
-            <Link
-              href="/privacy-policy"
-              className="block text-sm text-muted-foreground dark:text-foreground"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms-of-service"
-              className="block text-sm text-muted-foreground dark:text-foreground"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              href="/help"
-              className="block text-sm text-muted-foreground dark:text-foreground"
-            >
-              Help / FAQ
-            </Link>
+            {FOOTER_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block text-sm text-muted-foreground dark:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
             <ThemeToggle className="w-fit bg-background dark:bg-background" />
           </footer>
         </SheetContent>

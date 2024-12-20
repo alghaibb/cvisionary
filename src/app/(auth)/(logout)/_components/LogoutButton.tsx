@@ -25,7 +25,7 @@ export default function LogoutButton({ className }: LogoutButtonProps) {
       variant="gooeyLeft"
       className={className}
     >
-      {isPending ? "Logging out..." : "Logout"}
+      {isPending ? "Logging out..." : "Log Out"}
     </LoadingButton>
   );
 }

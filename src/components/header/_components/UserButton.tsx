@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { User } from "@prisma/client";
-import LogoutButton from "@/app/(auth)/(logout)/_components/LogoutButton";
 import Link from "next/link";
-import { Settings } from "lucide-react";
+import { CreditCard, LogOut, Settings } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 export default function UserButton({ user }: { user: User }) {
   const { setTheme, resolvedTheme } = useTheme();
@@ -28,7 +28,7 @@ export default function UserButton({ user }: { user: User }) {
         <Button variant="outline">{user.firstName[0].toUpperCase()}</Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-56 space-y-2 p-2">
+      <DropdownMenuContent className="w-80 space-y-2 p-2">
         <div className="p-2 text-sm text-muted-foreground">
           Welcome,{" "}
           <span className="font-medium text-foreground dark:text-foreground">
@@ -45,6 +45,16 @@ export default function UserButton({ user }: { user: User }) {
           >
             <Settings size={16} className="mr-2" />
             Manage Account
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
+          <Link
+            href="/billing"
+            className="cursor-pointer px-2 py-2 hover:bg-muted"
+          >
+            <CreditCard size={16} className="mr-2" />
+            Billing
           </Link>
         </DropdownMenuItem>
 
@@ -67,8 +77,12 @@ export default function UserButton({ user }: { user: User }) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <LogoutButton className="w-full" />
+        <DropdownMenuItem
+          onClick={() => signOut()}
+          className="cursor-pointer px-2 py-2 hover:bg-muted"
+        >
+          <LogOut size={16} className="mr-2" />
+          Log Out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

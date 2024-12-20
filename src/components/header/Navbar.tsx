@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { NO_HEADER_FOOTER_ROUTES, NAVIGATION_LINKS } from "@/lib/constants";
+import { NO_HEADER_FOOTER_ROUTES, DESKTOP_NAVIGATION_LINKS } from "@/lib/constants";
 import { User } from "@prisma/client";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -37,7 +37,7 @@ export default function Navbar({ user }: { user?: User }) {
       <MobileNav user={user} />
 
       <div className="items-center hidden gap-4 md:flex">
-        {NAVIGATION_LINKS.map((link) => (
+        {DESKTOP_NAVIGATION_LINKS.map((link) => (
           <Button
             asChild
             key={link.href}
