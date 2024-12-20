@@ -37,10 +37,12 @@ export default function ThemeToggle({ className }: ThemeToggleProps) {
       {resolvedTheme === "dark" ? (
         <>
           <Sun className="h-5 w-5" aria-hidden="true" />
+          <span className="sr-only">Switch to light mode</span>
         </>
       ) : (
         <>
           <Moon className="h-5 w-5" aria-hidden="true" />
+          <span className="sr-only">Switch to dark mode</span>
         </>
       )}
     </Button>

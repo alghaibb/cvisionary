@@ -1,7 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { NO_HEADER_FOOTER_ROUTES, DESKTOP_NAVIGATION_LINKS } from "@/lib/constants";
+import {
+  NO_HEADER_FOOTER_ROUTES,
+  DESKTOP_NAVIGATION_LINKS,
+} from "@/lib/constants";
 import { User } from "@prisma/client";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -9,6 +12,7 @@ import Image from "next/image";
 import logo from "@/assets/logo.png";
 import MobileNav from "./MobileNav";
 import UserButton from "./_components/UserButton";
+import ThemeToggle from "../ThemeToggle";
 
 export default function Navbar({ user }: { user?: User }) {
   const pathname = usePathname();
@@ -36,7 +40,7 @@ export default function Navbar({ user }: { user?: User }) {
 
       <MobileNav user={user} />
 
-      <div className="items-center hidden gap-4 md:flex">
+      <div className="hidden items-center gap-4 md:flex">
         {DESKTOP_NAVIGATION_LINKS.map((link) => (
           <Button
             asChild
@@ -51,7 +55,8 @@ export default function Navbar({ user }: { user?: User }) {
         ))}
       </div>
 
-      <div className="items-center hidden gap-4 md:flex">
+      <div className="hidden items-center gap-4 md:flex">
+        <ThemeToggle className="w-10" />
         {user ? (
           <div className="flex items-center gap-6">
             <UserButton user={user} />
