@@ -45,8 +45,8 @@ export default function Navbar({ user }: { user?: User }) {
           <Button
             asChild
             key={link.href}
-            variant="ghost"
-            className="hover:bg-background"
+            variant="basic"
+            className="hover:bg-none dark:hover:bg-none"
           >
             <Link href={link.href}>
               <span>{link.label}</span>
@@ -58,12 +58,7 @@ export default function Navbar({ user }: { user?: User }) {
       <div className="hidden items-center gap-4 md:flex">
         <ThemeToggle className="w-10" />
         {user ? (
-          <div className="flex items-center gap-6">
-            <UserButton user={user} />
-            <Button asChild variant="shine">
-              <Link href="/create-resume">Create Resume</Link>
-            </Button>
-          </div>
+          <UserButton user={user} />
         ) : (
           <>
             <Button asChild variant="outline">

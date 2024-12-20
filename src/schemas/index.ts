@@ -7,3 +7,6 @@ export * from "./auth/forgot-password-schema";
 export * from "./auth/reset-password-schema";
 export * from "./auth/resend-otp-schema";
 export * from "./auth/magic-link-schema";
+export * from "./resume/general-info-schema";
+export * from "./resume/personal-info-schema";
+export * from "./resume/resume-schema";
