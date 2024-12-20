@@ -1,14 +1,17 @@
 import { getSession } from "./session";
 import { redirect } from "next/navigation";
+import { User } from "@prisma/client";
 
-export function withAuth(handler: () => Promise<JSX.Element>) {
+export function withAuth(
+  handler: (props: { user: User }) => Promise<JSX.Element>
+) {
   return async function () {
     const session = await getSession();
 
-    if (!session) {
+    if (!session || !session.user) {
       redirect("/login");
     }
 
-    return handler();
-  }
+    return handler({ user: session.user });
+  };
 }
