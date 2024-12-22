@@ -157,13 +157,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
               <FormLabel>Start Date</FormLabel>
               <FormControl>
                 <DatePicker
-                  value={
-                    field.value &&
-                    typeof field.value === "string" &&
-                    field.value.length >= 10
-                      ? new Date(field.value)
-                      : undefined
-                  }
+                  value={field.value ? new Date(field.value) : undefined}
                   onChange={(date) =>
                     field.onChange(date?.toISOString().split("T")[0])
                   }
@@ -182,13 +176,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
               <FormLabel>End Date</FormLabel>
               <FormControl>
                 <DatePicker
-                  value={
-                    field.value &&
-                    typeof field.value === "string" &&
-                    field.value.length >= 10
-                      ? new Date(field.value)
-                      : undefined
-                  }
+                  value={field.value ? new Date(field.value) : undefined}
                   onChange={(date) =>
                     field.onChange(date?.toISOString().split("T")[0])
                   }
