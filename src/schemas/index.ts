@@ -10,3 +10,7 @@ export * from "./auth/magic-link-schema";
 export * from "./resume/general-info-schema";
 export * from "./resume/personal-info-schema";
 export * from "./resume/resume-schema";
+export * from "./resume/work-experience-schema";
+export * from "./resume/education-schema";
+export * from "./resume/skills-schema";
+export * from "./resume/summary-schema";
