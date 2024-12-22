@@ -34,7 +34,7 @@ const buttonVariants = cva(
           "relative after:absolute after:bg-primary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300 text-primary dark:text-secondary-foreground",
         linkHover2:
           "relative after:absolute after:bg-primary after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300 text-primary dark:text-secondary-foreground",
-          basic: "",
+        basic: "hover:text-foreground/50 duration-200",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -137,7 +137,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading || disabled}
         {...props}
       >
-        {loading && <Loader2 className="w-5 h-5 mr-2 animate-spin" />}
+        {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
         <Slottable>{children}</Slottable>
       </Comp>
     );
