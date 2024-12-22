@@ -158,7 +158,9 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
               <FormControl>
                 <DatePicker
                   value={
-                    field.value?.slice(0, 10)
+                    field.value &&
+                    typeof field.value === "string" &&
+                    field.value.length >= 10
                       ? new Date(field.value)
                       : undefined
                   }
@@ -181,7 +183,9 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
               <FormControl>
                 <DatePicker
                   value={
-                    field.value?.slice(0, 10)
+                    field.value &&
+                    typeof field.value === "string" &&
+                    field.value.length >= 10
                       ? new Date(field.value)
                       : undefined
                   }
