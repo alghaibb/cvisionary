@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { educationSchema, generalInfoSchema, personalInfoSchema, skillsSchema, summarySchema, workExperienceSchema } from "@/schemas";
+import { educationSchema } from "./education-schema";
+import { generalInfoSchema } from "./general-info-schema";
+import { personalInfoSchema } from "./personal-info-schema";
+import { skillsSchema } from "./skills-schema";
+import { summarySchema } from "./summary-schema";
+import { workExperienceSchema } from "./work-experience-schema";
 
 export const resumeSchema = z.object({
   ...generalInfoSchema.shape,

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import {
   personalInfoSchema,
   PersonalInfoValues,
-} from "@/schemas/resume/personal-info-schema";
+} from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AtSign, Phone, MapPin, User } from "lucide-react";
@@ -48,7 +48,7 @@ export default function PersonalInfoForm({
   }, [form, resumeData, setResumeData]);
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
+    <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">Personal Information</h2>
