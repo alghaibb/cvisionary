@@ -40,7 +40,7 @@ export default function Navbar({ user }: { user?: User }) {
 
       <MobileNav user={user} />
 
-      <div className="hidden items-center gap-4 md:flex">
+      <div className="items-center hidden gap-4 md:flex">
         {DESKTOP_NAVIGATION_LINKS.map((link) => (
           <Button
             asChild
@@ -55,7 +55,7 @@ export default function Navbar({ user }: { user?: User }) {
         ))}
       </div>
 
-      <div className="hidden items-center gap-4 md:flex">
+      <div className="items-center hidden gap-4 md:flex">
         <ThemeToggle className="w-10" />
         {user ? (
           <UserButton user={user} />

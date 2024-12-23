@@ -36,7 +36,7 @@ export default function EducationForm({
 
       setResumeData({
         ...resumeData,
-        workExperiences:
+        educations:
           values.educations?.filter((edu) => edu !== undefined) || [],
       });
     });
