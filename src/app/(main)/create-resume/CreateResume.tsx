@@ -6,6 +6,7 @@ import Breadcrums from "./_components/Breadcrums";
 import CreateResumeFooter from "./_components/CreateResumeFooter";
 import { useState } from "react";
 import { ResumeValues } from "@/schemas";
+import ResumePreviewSection from "./_components/ResumePreviewSection";
 
 export default function CreateResume() {
   const [resumeData, setResumeData] = useState<ResumeValues>({});
@@ -25,7 +26,7 @@ export default function CreateResume() {
   )?.component;
 
   return (
-    <div className="flex grow flex-col">
+    <div className="flex flex-col grow">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
         <h1 className="text-2xl font-bold">Create A New Resume</h1>
         <p className="text-sm text-muted-foreground">
@@ -34,8 +35,8 @@ export default function CreateResume() {
         </p>
       </header>
       <main className="relative grow">
-        <div className="absolute bottom-0 top-0 flex w-full">
-          <div className="w-full space-y-6 overflow-y-auto p-3 md:w-1/2 mt-6">
+        <div className="absolute top-0 bottom-0 flex w-full">
+          <div className="w-full p-3 mt-6 space-y-6 overflow-y-auto md:w-1/2">
             <Breadcrums
               currentStep={currentStep}
               setCurrentStepsteps={setStep}
@@ -48,9 +49,10 @@ export default function CreateResume() {
             )}
           </div>
           <div className="grow md:border-r" />
-          <div className="hidden w-1/2 md:flex mt-6">
-            <pre>{JSON.stringify(resumeData, null, 2)}</pre>
-          </div>
+          <ResumePreviewSection
+            resumeData={resumeData}
+            setResumeData={setResumeData}
+          />
         </div>
       </main>
       <CreateResumeFooter
