@@ -51,7 +51,7 @@ export default function WorkExperienceForm({
   });
 
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">Work Experience</h2>
         <p className="text-sm text-muted-foreground">
@@ -100,10 +100,10 @@ interface WorkExperienceItemProps {
 
 function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
   return (
-    <div className="p-4 space-y-4 border rounded-lg shadow-sm bg-background">
+    <div className="space-y-4 rounded-lg border bg-background p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <GripHorizontal className="w-4 h-4 cursor-grab text-muted-foreground" />
+          <GripHorizontal className="h-4 w-4 cursor-grab text-muted-foreground" />
           <h3 className="text-lg font-semibold">Work Experience {index + 1}</h3>
         </div>
         <Button
@@ -157,7 +157,11 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
               <FormLabel>Start Date</FormLabel>
               <FormControl>
                 <DatePicker
-                  value={field.value ? new Date(field.value) : undefined}
+                  value={
+                    field.value?.slice(0, 10)
+                      ? new Date(field.value)
+                      : undefined
+                  }
                   onChange={(date) =>
                     field.onChange(date?.toISOString().split("T")[0])
                   }
@@ -176,7 +180,11 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
               <FormLabel>End Date</FormLabel>
               <FormControl>
                 <DatePicker
-                  value={field.value ? new Date(field.value) : undefined}
+                  value={
+                    field.value?.slice(0, 10)
+                      ? new Date(field.value)
+                      : undefined
+                  }
                   onChange={(date) =>
                     field.onChange(date?.toISOString().split("T")[0])
                   }
@@ -206,7 +214,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
                 {...field}
                 placeholder="Describe your responsibilities and achievements."
                 maxLength={1000}
-                className="overflow-hidden resize-none"
+                className="resize-none overflow-hidden"
                 style={{ height: "auto" }}
                 onInput={(e) => {
                   const target = e.target as HTMLTextAreaElement;

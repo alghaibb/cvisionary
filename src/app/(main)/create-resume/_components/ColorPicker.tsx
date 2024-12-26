@@ -6,7 +6,11 @@ import {
 } from "@/components/ui/popover";
 import { PaletteIcon } from "lucide-react";
 import { useState } from "react";
-import { Color, ColorChangeHandler, TwitterPicker } from "react-color";
+import {
+  Color,
+  ColorChangeHandler,
+  ChromePicker,
+} from "react-color";
 
 interface ColorPickerProps {
   color: Color | undefined;
@@ -23,16 +27,18 @@ export default function ColorPicker({ color, onChange }: ColorPickerProps) {
           variant="outline"
           size="icon"
           title="Change resume color"
+          aria-label="Change resume color"
+          className="flex items-center gap-2"
           onClick={() => setShowPopover(true)}
         >
           <PaletteIcon size={16} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="bg-transparent border-none shadow-none"
-        align="end"
+        className="border-none bg-transparent shadow-none"
+        align="start"
       >
-        <TwitterPicker color={color} onChange={onChange} triangle="top-right" />
+        <ChromePicker color={color} onChange={onChange} disableAlpha/>
       </PopoverContent>
     </Popover>
   );
