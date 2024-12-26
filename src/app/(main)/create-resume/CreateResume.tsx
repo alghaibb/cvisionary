@@ -7,9 +7,11 @@ import CreateResumeFooter from "./_components/CreateResumeFooter";
 import { useState } from "react";
 import { ResumeValues } from "@/schemas";
 import ResumePreviewSection from "./_components/ResumePreviewSection";
+import { cn } from "@/lib/utils";
 
 export default function CreateResume() {
   const [resumeData, setResumeData] = useState<ResumeValues>({});
+  const [showMobilePreview, setShowMobilePreview] = useState(false);
 
   const searchParams = useSearchParams();
 
@@ -36,7 +38,12 @@ export default function CreateResume() {
       </header>
       <main className="relative grow">
         <div className="absolute top-0 bottom-0 flex w-full">
-          <div className="w-full p-3 mt-6 space-y-6 overflow-y-auto md:w-1/2">
+          <div
+            className={cn(
+              "mt-6 w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2",
+              showMobilePreview && "hidden",
+            )}
+          >
             <Breadcrums
               currentStep={currentStep}
               setCurrentStepsteps={setStep}
@@ -52,12 +59,15 @@ export default function CreateResume() {
           <ResumePreviewSection
             resumeData={resumeData}
             setResumeData={setResumeData}
+            className={cn(showMobilePreview && "flex")}
           />
         </div>
       </main>
       <CreateResumeFooter
         currentStep={currentStep}
         setCurrentStepsteps={setStep}
+        showMobilePreview={showMobilePreview}
+        setShowMobilePreview={setShowMobilePreview}
       />
     </div>
   );
