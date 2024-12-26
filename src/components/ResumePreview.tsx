@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { formatDate } from "date-fns";
 import { Badge } from "./ui/badge";
+import { BorderStyles } from "@/app/(main)/create-resume/_components/BorderStyle";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -78,7 +79,15 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           width={100}
           height={100}
           alt="Resume photo"
-          className="aspect-square object-cover"
+          className="object-cover aspect-square"
+          style={{
+            borderRadius:
+              borderStyle === BorderStyles.SQUARE
+                ? "0px"
+                : borderStyle === BorderStyles.CIRCLE
+                  ? "9999px"
+                  : "10%",
+          }}
         />
       )}
       <div className="space-y-2.5">
@@ -115,14 +124,14 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
   return (
     <>
       <hr style={{ borderColor: colorHex }} className="border-2" />
-      <div className="break-inside-avoid space-y-3">
+      <div className="space-y-3 break-inside-avoid">
         <p
           className="text-lg font-semibold"
           style={{ color: colorHex, border: borderStyle }}
         >
           Professional Summary
         </p>
-        <div className="max-w-prose whitespace-pre-line break-words text-justify text-sm">
+        <div className="text-sm text-justify break-words whitespace-pre-line max-w-prose">
           {summary}
         </div>
       </div>
@@ -149,9 +158,9 @@ function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
         >
           Work Experience
         </p>
-        <div className="space-y-3 whitespace-pre-line break-words text-justify text-sm">
+        <div className="space-y-3 text-sm text-justify break-words whitespace-pre-line">
           {workExperiencesNotEmpty.map((exp, index) => (
-            <div key={index} className="break-inside-avoid space-y-1">
+            <div key={index} className="space-y-1 break-inside-avoid">
               <div className="flex justify-between text-sm font-semibold">
                 <span>{exp.position}</span>
                 {exp.startDate && (
@@ -165,7 +174,7 @@ function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
               </div>
 
               <p className="text-xs font-semibold">{exp.company}</p>
-              <div className="max-w-prose whitespace-pre-line break-words text-justify text-sm">
+              <div className="text-sm text-justify break-words whitespace-pre-line max-w-prose">
                 {exp.description}
               </div>
             </div>
@@ -192,7 +201,7 @@ function EducationSection({ resumeData }: ResumeSectionProps) {
           Education
         </p>
         {educationsNotEmpty.map((edu, index) => (
-          <div key={index} className="break-inside-avoid space-y-1">
+          <div key={index} className="space-y-1 break-inside-avoid">
             <div className="flex items-center justify-between text-sm font-semibold">
               <span>{edu.degree}</span>
               {edu.startDate && (
@@ -211,23 +220,31 @@ function EducationSection({ resumeData }: ResumeSectionProps) {
 }
 
 function SkillsSection({ resumeData }: ResumeSectionProps) {
-  const { skills, colorHex } = resumeData;
+  const { skills, colorHex, borderStyle } = resumeData;
 
   if (!skills) return null;
 
   return (
     <>
       <hr style={{ borderColor: colorHex }} className="border-2" />
-      <div className="break-inside-avoid space-y-3">
+      <div className="space-y-3 break-inside-avoid">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
           Skills
         </p>
-        <div className="flex break-inside-avoid flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 break-inside-avoid">
           {skills.map((skill, index) => (
             <Badge
               key={index}
-              className="bg-black text-white hover:bg-black"
-              style={{ backgroundColor: colorHex }}
+              className="text-white bg-black hover:bg-black"
+              style={{
+                backgroundColor: colorHex,
+                borderRadius:
+                  borderStyle === BorderStyles.SQUARE
+                    ? "0px"
+                    : borderStyle === BorderStyles.CIRCLE
+                      ? "9999px"
+                      : "8px",
+              }}
             >
               {skill}
             </Badge>
