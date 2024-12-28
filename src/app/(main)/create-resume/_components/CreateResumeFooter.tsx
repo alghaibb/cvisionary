@@ -25,8 +25,8 @@ export default function CreateResumeFooter({
   )?.key;
 
   return (
-    <footer className="w-full px-3 py-5 border-t">
-      <div className="flex flex-col flex-wrap justify-between gap-3 mx-auto max-w-7xl md:flex-row">
+    <footer className="w-full border-t px-3 py-5">
+      <div className="mx-auto flex max-w-7xl flex-col flex-wrap justify-between gap-3 md:flex-row">
         <div className="flex items-center gap-3">
           <Button
             variant="outline"
@@ -49,9 +49,8 @@ export default function CreateResumeFooter({
         </div>
         <Button
           variant="outline"
-          size="icon"
           onClick={() => setShowMobilePreview(!showMobilePreview)}
-          className="w-full md:hidden"
+          className="mx-auto w-full max-w-[200px] md:hidden"
           title={showMobilePreview ? "Show form" : "Show resume preview"}
         >
           {showMobilePreview ? (
@@ -64,7 +63,7 @@ export default function CreateResumeFooter({
           <Button variant="outline" asChild className="w-full md:w-fit">
             <Link href="/resumes">Close</Link>
           </Button>
-          <p className="opacity-0 text-muted-foreground"></p>
+          <p className="text-muted-foreground opacity-0"></p>
         </div>
       </div>
     </footer>
