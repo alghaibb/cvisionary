@@ -14,9 +14,15 @@ export default {
 					from: { backgroundPosition: '200% 0' },
 					to: { backgroundPosition: '-200% 0' },
 				},
+				dot: {
+					'0%, 20%': { opacity: "0" },
+					'50%': { opacity: "1" },
+					'100%': { opacity: "0" },
+				}
 			},
 			animation: {
 				"shine": "shine 8s ease-in-out infinite",
+				"dot": 'dot 1s infinite',
 			},
 			colors: {
 				background: 'hsl(var(--background))',
