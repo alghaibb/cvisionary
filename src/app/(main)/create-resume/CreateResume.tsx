@@ -8,10 +8,15 @@ import { useState } from "react";
 import { ResumeValues } from "@/schemas";
 import ResumePreviewSection from "./_components/ResumePreviewSection";
 import { cn } from "@/lib/utils";
+import useUnloadWarning from "@/hooks/useUnloadWarning";
+import useAutoSave from "./_components/useAutoSave";
 
 export default function CreateResume() {
   const [resumeData, setResumeData] = useState<ResumeValues>({});
   const [showMobilePreview, setShowMobilePreview] = useState(false);
+  const { isSaving, hasChanges } = useAutoSave(resumeData);
+
+  useUnloadWarning(hasChanges);
 
   const searchParams = useSearchParams();
 
@@ -68,6 +73,7 @@ export default function CreateResume() {
         setCurrentStepsteps={setStep}
         showMobilePreview={showMobilePreview}
         setShowMobilePreview={setShowMobilePreview}
+        isSaving={isSaving}
       />
     </div>
   );
