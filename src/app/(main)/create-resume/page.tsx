@@ -1,11 +1,33 @@
-import { withAuth } from "@/utils/withAuth";
+import { getSession } from "@/utils/session";
 import { Metadata } from "next";
 import CreateResume from "./CreateResume";
+import { redirect } from "next/navigation";
+import prisma from "@/lib/prisma";
+import { resumeDataInclude } from "@/types/create-resume";
+
+interface CreateResumePageProps {
+  searchParams: Promise<{ resumeId?: string }>;
+}
 
 export const metadata: Metadata = {
   title: "Create Your Resume",
 };
 
-export default withAuth(async function Page() {
-  return <CreateResume />;
-});
+export default async function Page({ searchParams }: CreateResumePageProps) {
+  const session = await getSession();
+  const user = session?.user.id;
+  if (!session || !session.user || !user) {
+    redirect("/login");
+  }
+
+  const { resumeId } = await searchParams;
+
+  const resumeToEdit = resumeId
+    ? await prisma.resume.findUnique({
+        where: { id: resumeId, userId: user },
+        include: resumeDataInclude,
+      })
+    : null;
+
+  return <CreateResume resumeToEdit={resumeToEdit} />;
+}

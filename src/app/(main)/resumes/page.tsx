@@ -18,16 +18,17 @@ export default withAuth(async function Page({ user }: { user: User }) {
     select: {
       id: true,
       title: true,
+      description: true,
     },
   });
 
   const hasResumes = resumes.length > 0;
 
   return (
-    <main className="w-full px-3 py-6 mx-auto space-y-6 max-w-7xl">
+    <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
       {!hasResumes ? (
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <FileText className="w-12 h-12 text-muted-foreground" />
+          <FileText className="h-12 w-12 text-muted-foreground" />
           <h2 className="text-xl font-semibold">No Resumes Found</h2>
           <p className="text-sm text-muted-foreground">
             It looks like you haven&apos;t created any resumes yet. Start by
@@ -47,15 +48,22 @@ export default withAuth(async function Page({ user }: { user: User }) {
             {resumes.map((resume) => (
               <li
                 key={resume.id}
-                className="flex items-center justify-between p-4 border rounded-lg shadow-sm hover:shadow-md"
+                className="flex items-center justify-between rounded-lg border p-4 shadow-sm hover:shadow-md"
               >
                 <span>{resume.title}</span>
+                <p>{resume.description}</p>
                 <Button variant="ghost" size="sm" asChild>
                   <Link href={`/resumes/${resume.id}`}>View</Link>
                 </Button>
               </li>
             ))}
           </ul>
+          <Button variant="shine" asChild>
+            <Link href="/create-resume">
+              <PlusSquare size={16} className="mr-2" />
+              Create New Resume
+            </Link>
+          </Button>
         </div>
       )}
     </main>

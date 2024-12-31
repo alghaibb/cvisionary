@@ -79,7 +79,7 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
           width={100}
           height={100}
           alt="Resume photo"
-          className="object-cover aspect-square"
+          className="aspect-square object-cover"
           style={{
             borderRadius:
               borderStyle === BorderStyles.SQUARE
@@ -124,14 +124,14 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
   return (
     <>
       <hr style={{ borderColor: colorHex }} className="border-2" />
-      <div className="space-y-3 break-inside-avoid">
+      <div className="break-inside-avoid space-y-3">
         <p
           className="text-lg font-semibold"
           style={{ color: colorHex, border: borderStyle }}
         >
           Professional Summary
         </p>
-        <div className="text-sm text-justify break-words whitespace-pre-line max-w-prose">
+        <div className="max-w-prose whitespace-pre-line break-words text-justify text-sm">
           {summary}
         </div>
       </div>
@@ -158,9 +158,9 @@ function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
         >
           Work Experience
         </p>
-        <div className="space-y-3 text-sm text-justify break-words whitespace-pre-line">
+        <div className="space-y-3 whitespace-pre-line break-words text-justify text-sm">
           {workExperiencesNotEmpty.map((exp, index) => (
-            <div key={index} className="space-y-1 break-inside-avoid">
+            <div key={index} className="break-inside-avoid space-y-1">
               <div className="flex justify-between text-sm font-semibold">
                 <span>{exp.position}</span>
                 {exp.startDate && (
@@ -174,7 +174,7 @@ function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
               </div>
 
               <p className="text-xs font-semibold">{exp.company}</p>
-              <div className="text-sm text-justify break-words whitespace-pre-line max-w-prose">
+              <div className="max-w-prose whitespace-pre-line break-words text-justify text-sm">
                 {exp.description}
               </div>
             </div>
@@ -201,7 +201,7 @@ function EducationSection({ resumeData }: ResumeSectionProps) {
           Education
         </p>
         {educationsNotEmpty.map((edu, index) => (
-          <div key={index} className="space-y-1 break-inside-avoid">
+          <div key={index} className="break-inside-avoid space-y-1">
             <div className="flex items-center justify-between text-sm font-semibold">
               <span>{edu.degree}</span>
               {edu.startDate && (
@@ -227,15 +227,15 @@ function SkillsSection({ resumeData }: ResumeSectionProps) {
   return (
     <>
       <hr style={{ borderColor: colorHex }} className="border-2" />
-      <div className="space-y-3 break-inside-avoid">
+      <div className="break-inside-avoid space-y-3">
         <p className="text-lg font-semibold" style={{ color: colorHex }}>
           Skills
         </p>
-        <div className="flex flex-wrap gap-2 break-inside-avoid">
+        <div className="flex break-inside-avoid flex-wrap gap-2">
           {skills.map((skill, index) => (
             <Badge
               key={index}
-              className="text-white bg-black hover:bg-black"
+              className="bg-black text-white hover:bg-black"
               style={{
                 backgroundColor: colorHex,
                 borderRadius:

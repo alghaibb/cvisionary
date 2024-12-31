@@ -10,9 +10,17 @@ import ResumePreviewSection from "./_components/ResumePreviewSection";
 import { cn } from "@/lib/utils";
 import useUnloadWarning from "@/hooks/useUnloadWarning";
 import useAutoSave from "./_components/useAutoSave";
+import { ResumeServerData } from "@/types/create-resume";
+import { mapToResumeValues } from "@/utils/resume/mapToResumeValues";
 
-export default function CreateResume() {
-  const [resumeData, setResumeData] = useState<ResumeValues>({});
+interface CreateResumeProps {
+  resumeToEdit?: ResumeServerData | null;
+}
+
+export default function CreateResume({ resumeToEdit }: CreateResumeProps) {
+  const [resumeData, setResumeData] = useState<ResumeValues>(
+    resumeToEdit ? mapToResumeValues(resumeToEdit) : {},
+  );
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const { isSaving, hasChanges } = useAutoSave(resumeData);
 
@@ -33,7 +41,7 @@ export default function CreateResume() {
   )?.component;
 
   return (
-    <div className="flex flex-col grow">
+    <div className="flex grow flex-col">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
         <h1 className="text-2xl font-bold">Create A New Resume</h1>
         <p className="text-sm text-muted-foreground">
@@ -42,7 +50,7 @@ export default function CreateResume() {
         </p>
       </header>
       <main className="relative grow">
-        <div className="absolute top-0 bottom-0 flex w-full">
+        <div className="absolute bottom-0 top-0 flex w-full">
           <div
             className={cn(
               "mt-6 w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2",
