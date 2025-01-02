@@ -14,3 +14,4 @@ export * from "./resume/work-experience-schema";
 export * from "./resume/education-schema";
 export * from "./resume/skills-schema";
 export * from "./resume/summary-schema";
+export * from "./ai/generate-summary-schema";
