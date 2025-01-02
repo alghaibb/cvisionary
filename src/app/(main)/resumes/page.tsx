@@ -5,66 +5,69 @@ import { User } from "@prisma/client";
 import { PlusSquare, FileText } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { resumeDataInclude } from "@/types/create-resume";
+import ResumeItem from "./_components/ResumeItem";
 
 export const metadata: Metadata = {
   title: "My Resumes",
 };
 
 export default withAuth(async function Page({ user }: { user: User }) {
-  const resumes = await prisma.resume.findMany({
-    where: {
-      userId: user.id,
-    },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-    },
-  });
-
-  const hasResumes = resumes.length > 0;
+  const [resumes, totalCount] = await Promise.all([
+    prisma.resume.findMany({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+      include: resumeDataInclude,
+    }),
+    prisma.resume.count({
+      where: {
+        userId: user.id,
+      },
+    }),
+  ]);
 
   return (
-    <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
-      {!hasResumes ? (
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <FileText className="h-12 w-12 text-muted-foreground" />
-          <h2 className="text-xl font-semibold">No Resumes Found</h2>
-          <p className="text-sm text-muted-foreground">
-            It looks like you haven&apos;t created any resumes yet. Start by
-            creating your first one!
+    <main className="w-full px-3 py-6 mx-auto space-y-6 max-w-7xl">
+      {resumes.length === 0 ? (
+        <div className="flex h-[60vh] flex-col items-center justify-center space-y-4 text-center">
+          <FileText size={64} />
+          <p className="text-lg font-semibold">
+            You don&apos;t have any resumes yet
           </p>
-          <Button variant="shine" asChild>
+          <p className="text-sm text-muted-foreground">
+            Create a new resume to get started
+          </p>
+          <Button asChild className="flex gap-2 mx-auto w-fit">
             <Link href="/create-resume">
-              <PlusSquare size={16} className="mr-2" />
-              Create New Resume
+              <PlusSquare size={16} />
+              Create A New Resume
             </Link>
           </Button>
         </div>
       ) : (
-        <div>
-          <h2 className="text-xl font-semibold">Your Resumes</h2>
-          <ul className="mt-4 space-y-3">
-            {resumes.map((resume) => (
-              <li
-                key={resume.id}
-                className="flex items-center justify-between rounded-lg border p-4 shadow-sm hover:shadow-md"
-              >
-                <span>{resume.title}</span>
-                <p>{resume.description}</p>
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href={`/resumes/${resume.id}`}>View</Link>
-                </Button>
-              </li>
-            ))}
-          </ul>
-          <Button variant="shine" asChild>
+        <>
+          <Button asChild className="flex gap-2 mx-auto w-fit">
             <Link href="/create-resume">
-              <PlusSquare size={16} className="mr-2" />
-              Create New Resume
+              <PlusSquare size={16} />
+              Create A New Resume
             </Link>
           </Button>
-        </div>
+          <div className="space-y-1">
+            <h1 className="text-3xl font-bold">Your Resumes</h1>
+            <p className="text-sm text-muted-foreground">
+              Resume count: {totalCount}
+            </p>
+          </div>
+          <div className="flex flex-col w-full grid-cols-2 gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
+            {resumes.map((resume) => (
+              <ResumeItem key={resume.id} resume={resume} />
+            ))}
+          </div>
+        </>
       )}
     </main>
   );

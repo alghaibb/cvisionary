@@ -12,6 +12,7 @@ import { CreateResumeProps } from "@/types/create-resume";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import GenerateSummaryButton from "../_components/GenerateSummaryButton";
 
 export default function SummaryForm({
   resumeData,
@@ -58,8 +59,8 @@ export default function SummaryForm({
                   <Textarea
                     {...field}
                     placeholder="Describe your responsibilities and achievements."
-                    maxLength={100}
-                    className="overflow-hidden resize-none"
+                    maxLength={500}
+                    className="overflow-hidden"
                     style={{ height: "auto" }}
                     onInput={(e) => {
                       const target = e.target as HTMLTextAreaElement;
@@ -69,9 +70,15 @@ export default function SummaryForm({
                   />
                 </FormControl>
                 <div className="mx-1 mt-1 text-xs text-muted-foreground">
-                  {field.value?.length || 0}/100
+                  {field.value?.length || 0}/500
                 </div>
                 <FormMessage />
+                <GenerateSummaryButton
+                  resumeData={resumeData}
+                  onSummaryGenerated={(summary) =>
+                    form.setValue("summary", summary)
+                  }
+                />
               </FormItem>
             )}
           />

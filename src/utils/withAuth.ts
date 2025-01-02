@@ -8,7 +8,7 @@ export function withAuth(
   return async function () {
     const session = await getSession();
 
-    if (!session || !session.user) {
+    if (!session || !session.user || !session.user.id) {
       redirect("/login");
     }
 
