@@ -20,7 +20,7 @@ export default function UserButton({ user }: { user: User }) {
         <Button variant="outline">{user.firstName[0].toUpperCase()}</Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-80 space-y-2 p-2">
+      <DropdownMenuContent className="p-2 space-y-2 w-80">
         <div className="p-2 text-sm text-muted-foreground">
           Welcome,{" "}
           <span className="font-medium text-foreground dark:text-foreground">
@@ -33,7 +33,7 @@ export default function UserButton({ user }: { user: User }) {
         <DropdownMenuItem asChild>
           <Link
             href="/account"
-            className="cursor-pointer px-2 py-2 hover:bg-muted"
+            className="px-2 py-2 cursor-pointer hover:bg-muted"
           >
             <Settings size={16} className="mr-2" />
             Manage Account
@@ -43,7 +43,7 @@ export default function UserButton({ user }: { user: User }) {
         <DropdownMenuItem asChild>
           <Link
             href="/billing"
-            className="cursor-pointer px-2 py-2 hover:bg-muted"
+            className="px-2 py-2 cursor-pointer hover:bg-muted"
           >
             <CreditCard size={16} className="mr-2" />
             Billing
@@ -53,8 +53,12 @@ export default function UserButton({ user }: { user: User }) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onClick={() => signOut()}
-          className="cursor-pointer px-2 py-2 hover:bg-muted"
+          onClick={() =>
+            signOut({
+              callbackUrl: "/login",
+            })
+          }
+          className="px-2 py-2 cursor-pointer hover:bg-muted"
         >
           <LogOut size={16} className="mr-2" />
           Log Out
