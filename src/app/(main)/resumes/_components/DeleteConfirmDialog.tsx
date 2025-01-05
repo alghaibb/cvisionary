@@ -30,6 +30,9 @@ export default function DeleteConfirmDialog({
       try {
         await deleteResume(resumeId);
         onOpenChange(false);
+        toast({
+          description: "Resume deleted successfully",
+        });
       } catch (error) {
         console.error(error);
         toast({
@@ -50,7 +53,7 @@ export default function DeleteConfirmDialog({
             undone.
           </ResponsiveModalDescription>
         </ResponsiveModalHeader>
-        <ResponsiveModalFooter className="flex flex-col items-center justify-center mt-4 space-y-4 md:mt-0 md:flex-row md:space-y-0">
+        <ResponsiveModalFooter className="mt-4 flex flex-col items-center justify-center space-y-4 md:mt-0 md:flex-row md:space-y-0">
           <LoadingButton
             variant="destructive"
             onClick={handleDelete}

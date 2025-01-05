@@ -288,7 +288,6 @@ function WorkExperienceItem({
               <Textarea
                 {...field}
                 placeholder="Describe your responsibilities and achievements."
-                maxLength={1000}
                 className="overflow-hidden"
                 style={{ height: "auto" }}
                 onInput={(e) => {
@@ -298,9 +297,6 @@ function WorkExperienceItem({
                 }}
               />
             </FormControl>
-            <div className="mx-1 mt-1 text-xs text-muted-foreground">
-              {field.value?.length || 0}/1000
-            </div>
             <FormMessage />
           </FormItem>
         )}

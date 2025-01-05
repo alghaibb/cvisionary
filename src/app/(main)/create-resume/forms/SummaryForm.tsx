@@ -39,12 +39,12 @@ export default function SummaryForm({
   }, [form, resumeData, setResumeData]);
 
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">Professional Summary</h2>
         <p className="text-sm text-muted-foreground">
           Add a professional summary to include in your resume or let the AI
-          generate one for you based on your previous entered information.
+          generate one for you based on your previously entered information.
         </p>
       </div>
       <Form {...form}>
@@ -59,7 +59,6 @@ export default function SummaryForm({
                   <Textarea
                     {...field}
                     placeholder="Describe your responsibilities and achievements."
-                    maxLength={500}
                     className="overflow-hidden"
                     style={{ height: "auto" }}
                     onInput={(e) => {
@@ -69,9 +68,6 @@ export default function SummaryForm({
                     }}
                   />
                 </FormControl>
-                <div className="mx-1 mt-1 text-xs text-muted-foreground">
-                  {field.value?.length || 0}/500
-                </div>
                 <FormMessage />
                 <GenerateSummaryButton
                   resumeData={resumeData}
