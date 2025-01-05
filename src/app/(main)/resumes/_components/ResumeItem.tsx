@@ -27,7 +27,7 @@ export default function ResumeItem({ resume, untitledIndex }: ResumeItemProps) {
   const displayTitle = resume.title || `Untitled Resume ${untitledIndex}`;
 
   return (
-    <div className="group relative transform border border-transparent bg-secondary p-3 transition-transform hover:scale-105 hover:border-border">
+    <div className="group relative transform border border-transparent bg-secondary p-3 transition-transform hover:border-border">
       <div className="space-y-3">
         <Link
           href={`create-resume?resumeId=${resume.id}`}
@@ -53,6 +53,7 @@ export default function ResumeItem({ resume, untitledIndex }: ResumeItemProps) {
         >
           <ResumePreview
             resumeData={mapToResumeValues(resume)}
+            contentRef={contentRef}
             className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
           />
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />

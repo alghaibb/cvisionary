@@ -10,10 +10,12 @@ import { BorderStyles } from "@/app/(main)/create-resume/_components/BorderStyle
 interface ResumePreviewProps {
   resumeData: ResumeValues;
   className?: string;
+  contentRef?: React.Ref<HTMLDivElement>;
 }
 
 export default function ResumePreview({
   resumeData,
+  contentRef,
   className,
 }: ResumePreviewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,10 +28,12 @@ export default function ResumePreview({
         className,
       )}
       ref={containerRef}
+      id="resumePreviewContent"
     >
       <div
         style={{ zoom: (1 / 794) * width }}
         className={cn("space-y-6 p-6", !width && "invisible")}
+        ref={contentRef}
       >
         <PersonalInfoHeader resumeData={resumeData} />
         <SummarySection resumeData={resumeData} />
