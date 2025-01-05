@@ -1,4 +1,3 @@
-import { DatePicker } from "@/components/DatePicker";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -85,7 +84,7 @@ export default function EducationForm({
   }
 
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">Education</h2>
         <p className="text-sm text-muted-foreground">
@@ -170,7 +169,7 @@ function EducationItem({ form, index, remove, id }: EducationItemProps) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <GripHorizontal
-            className="w-4 h-4 cursor-grab text-muted-foreground focus:outline-none"
+            className="h-4 w-4 cursor-grab text-muted-foreground focus:outline-none"
             {...attributes}
             {...listeners}
           />
@@ -226,16 +225,10 @@ function EducationItem({ form, index, remove, id }: EducationItemProps) {
             <FormItem>
               <FormLabel>Start Date</FormLabel>
               <FormControl>
-                <DatePicker
-                  value={
-                    field.value?.slice(0, 10)
-                      ? new Date(field.value)
-                      : undefined
-                  }
-                  onChange={(date) =>
-                    field.onChange(date?.toISOString().split("T")[0])
-                  }
-                  placeholder="Select a start date"
+                <Input
+                  {...field}
+                  type="date"
+                  value={field.value?.slice(0, 10)}
                 />
               </FormControl>
               <FormMessage />
@@ -249,16 +242,10 @@ function EducationItem({ form, index, remove, id }: EducationItemProps) {
             <FormItem>
               <FormLabel>End Date</FormLabel>
               <FormControl>
-                <DatePicker
-                  value={
-                    field.value?.slice(0, 10)
-                      ? new Date(field.value)
-                      : undefined
-                  }
-                  onChange={(date) =>
-                    field.onChange(date?.toISOString().split("T")[0])
-                  }
-                  placeholder="Select an end date"
+                <Input
+                  {...field}
+                  type="date"
+                  value={field.value?.slice(0, 10)}
                 />
               </FormControl>
               <FormMessage />
