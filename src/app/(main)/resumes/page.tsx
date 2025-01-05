@@ -31,7 +31,7 @@ export default withAuth(async function Page({ user }: { user: User }) {
   ]);
 
   return (
-    <main className="w-full px-3 py-6 mx-auto space-y-6 max-w-7xl">
+    <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
       {resumes.length === 0 ? (
         <div className="flex h-[60vh] flex-col items-center justify-center space-y-4 text-center">
           <FileText size={64} />
@@ -41,7 +41,7 @@ export default withAuth(async function Page({ user }: { user: User }) {
           <p className="text-sm text-muted-foreground">
             Create a new resume to get started
           </p>
-          <Button asChild className="flex gap-2 mx-auto w-fit">
+          <Button asChild className="mx-auto flex w-fit gap-2">
             <Link href="/create-resume">
               <PlusSquare size={16} />
               Create A New Resume
@@ -50,7 +50,7 @@ export default withAuth(async function Page({ user }: { user: User }) {
         </div>
       ) : (
         <>
-          <Button asChild className="flex gap-2 mx-auto w-fit">
+          <Button asChild className="mx-auto flex w-fit gap-2">
             <Link href="/create-resume">
               <PlusSquare size={16} />
               Create A New Resume
@@ -62,10 +62,19 @@ export default withAuth(async function Page({ user }: { user: User }) {
               Resume count: {totalCount}
             </p>
           </div>
-          <div className="flex flex-col w-full grid-cols-2 gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
-            {resumes.map((resume) => (
-              <ResumeItem key={resume.id} resume={resume} />
-            ))}
+          <div className="flex w-full grid-cols-2 flex-col gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
+            {resumes.map((resume, idx) => {
+              const untitledIndex = resumes
+                .slice(0, idx + 1)
+                .filter((r) => !r.title).length;
+              return (
+                <ResumeItem
+                  key={resume.id}
+                  resume={resume}
+                  untitledIndex={untitledIndex}
+                />
+              );
+            })}
           </div>
         </>
       )}

@@ -11,31 +11,34 @@ import MoreMenu from "./MoreMenu";
 
 interface ResumeItemProps {
   resume: ResumeServerData;
+  untitledIndex: number;
 }
 
-export default function ResumeItem({ resume }: ResumeItemProps) {
+export default function ResumeItem({ resume, untitledIndex }: ResumeItemProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const reactToPrintFn = useReactToPrint({
     contentRef,
-    documentTitle: resume.title || "Untitled Resume",
+    documentTitle: resume.title || `Untitled Resume ${untitledIndex}`,
   });
 
   const wasUpdated = resume.updatedAt !== resume.createdAt;
 
+  const displayTitle = resume.title || `Untitled Resume ${untitledIndex}`;
+
   return (
-    <div className="relative p-3 transition-transform transform border border-transparent group bg-secondary hover:scale-105 hover:border-border">
+    <div className="group relative transform border border-transparent bg-secondary p-3 transition-transform hover:scale-105 hover:border-border">
       <div className="space-y-3">
         <Link
           href={`create-resume?resumeId=${resume.id}`}
           className="inline-block w-full text-center"
         >
-          <p className="font-semibold line-clamp-1 group-hover:text-primary">
-            {resume.title || "Untitled Resume"}
+          <p className="line-clamp-1 font-semibold group-hover:text-primary">
+            {displayTitle}
           </p>
 
           {resume.description && (
-            <p className="text-sm line-clamp-2">{resume.description}</p>
+            <p className="line-clamp-2 text-sm">{resume.description}</p>
           )}
 
           <p className="text-xs text-muted-foreground">
@@ -50,7 +53,7 @@ export default function ResumeItem({ resume }: ResumeItemProps) {
         >
           <ResumePreview
             resumeData={mapToResumeValues(resume)}
-            className="overflow-hidden transition-shadow shadow-sm group-hover:shadow-lg"
+            className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
           />
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent" />
         </Link>
