@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { DatePicker } from "@/components/DatePicker";
 import { workExperienceSchema, WorkExperienceValues } from "@/schemas";
 import { CreateResumeProps } from "@/types/create-resume";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,6 +36,7 @@ import {
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
+import GenerateWorkExperienceButton from "../_components/GenerateWorkExperienceButton";
 
 export default function WorkExperienceForm({
   resumeData,
@@ -88,7 +88,7 @@ export default function WorkExperienceForm({
   }
 
   return (
-    <div className="max-w-xl mx-auto space-y-6">
+    <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">Work Experience</h2>
         <p className="text-sm text-muted-foreground">
@@ -179,7 +179,7 @@ function WorkExperienceItem({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <GripHorizontal
-            className="w-4 h-4 cursor-grab text-muted-foreground focus:outline-none"
+            className="h-4 w-4 cursor-grab text-muted-foreground focus:outline-none"
             {...attributes}
             {...listeners}
           />
@@ -193,6 +193,14 @@ function WorkExperienceItem({
         >
           <X size={16} />
         </Button>
+      </div>
+
+      <div className="flex justify-center">
+        <GenerateWorkExperienceButton
+          onWorkExperienceGenerated={(exp) =>
+            form.setValue(`workExperiences.${index}`, exp)
+          }
+        />
       </div>
 
       <FormField
@@ -235,16 +243,10 @@ function WorkExperienceItem({
             <FormItem>
               <FormLabel>Start Date</FormLabel>
               <FormControl>
-                <DatePicker
-                  value={
-                    field.value?.slice(0, 10)
-                      ? new Date(field.value)
-                      : undefined
-                  }
-                  onChange={(date) =>
-                    field.onChange(date?.toISOString().split("T")[0])
-                  }
-                  placeholder="Select a start date"
+                <Input
+                  {...field}
+                  type="date"
+                  value={field.value?.slice(0, 10)}
                 />
               </FormControl>
               <FormMessage />
@@ -258,16 +260,10 @@ function WorkExperienceItem({
             <FormItem>
               <FormLabel>End Date</FormLabel>
               <FormControl>
-                <DatePicker
-                  value={
-                    field.value?.slice(0, 10)
-                      ? new Date(field.value)
-                      : undefined
-                  }
-                  onChange={(date) =>
-                    field.onChange(date?.toISOString().split("T")[0])
-                  }
-                  placeholder="Select an end date"
+                <Input
+                  {...field}
+                  type="date"
+                  value={field.value?.slice(0, 10)}
                 />
               </FormControl>
               <FormMessage />
@@ -293,7 +289,7 @@ function WorkExperienceItem({
                 {...field}
                 placeholder="Describe your responsibilities and achievements."
                 maxLength={1000}
-                className="overflow-hidden resize-none"
+                className="overflow-hidden"
                 style={{ height: "auto" }}
                 onInput={(e) => {
                   const target = e.target as HTMLTextAreaElement;
