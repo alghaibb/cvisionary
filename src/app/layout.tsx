@@ -6,6 +6,7 @@ import "./globals.css";
 import Header from "@/components/header/Header";
 import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/footer/Footer";
 
 const jost = Jost({ subsets: ["latin"] });
 
@@ -35,9 +36,10 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <main className="flex flex-col min-h-screen">
+            <main className="flex min-h-screen flex-col">
               <Header />
               <div className="flex-grow">{children}</div>
+              <Footer />
             </main>
             <Toaster />
           </ThemeProvider>
