@@ -11,17 +11,47 @@ import {
   ResponsiveModalTitle,
 } from "../ui/responsive-modal";
 import { Separator } from "../ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { env } from "@/env";
+import { createCheckoutSession } from "./actions";
 
 export default function PremiumModal() {
+  const [loading, setLoading] = useState(false);
+
   const { open, setOpen } = usePremiumModal();
+  const { toast } = useToast();
 
   const premiumFeatures = FEATURES.filter((feature) => feature.isPremium);
   const premiumPlusFeatures = premiumFeatures.filter(
     (feature) => feature.title === "AI-Generated Resume Sections",
   );
 
+  async function handleUpgradeToPremium(priceId: string) {
+    try {
+      setLoading(true);
+      const res = await createCheckoutSession(priceId);
+      window.location.href = res;
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: "Failed to create checkout session",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <ResponsiveModal open={open} onOpenChange={setOpen}>
+    <ResponsiveModal
+      open={open}
+      onOpenChange={(open) => {
+        if (!loading) {
+          setOpen(open);
+        }
+      }}
+    >
       <ResponsiveModalContent className="lg:max-w-2xl">
         <ResponsiveModalHeader>
           <ResponsiveModalTitle className="mb-6 text-center">
@@ -57,7 +87,16 @@ export default function PremiumModal() {
                 <span>Create up to 10 resumes</span>
               </li>
             </ul>
-            <Button variant="secondary" className="w-full sm:w-auto">
+            <Button
+              variant="secondary"
+              className="w-full sm:w-auto"
+              onClick={() =>
+                handleUpgradeToPremium(
+                  env.NEXT_PUBLIC_STRIPE_PRICE_ID_PREMIUM_MONTHLY,
+                )
+              }
+              disabled={loading}
+            >
               Upgrade to Premium
             </Button>
           </div>
@@ -95,7 +134,16 @@ export default function PremiumModal() {
                 <span>Unlimited resumes</span>
               </li>
             </ul>
-            <Button variant="shine" className="w-full sm:w-auto">
+            <Button
+              variant="shine"
+              className="w-full sm:w-auto"
+              onClick={() =>
+                handleUpgradeToPremium(
+                  env.NEXT_PUBLIC_STRIPE_PRICE_ID_PREMIUM_PLUS_MONTHLY,
+                )
+              }
+              disabled={loading}
+            >
               Upgrade to Premium Plus
             </Button>
           </div>
