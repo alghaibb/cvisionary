@@ -59,12 +59,11 @@ export default function PremiumModal() {
           </ResponsiveModalTitle>
         </ResponsiveModalHeader>
         <div className="flex flex-col items-center space-y-6 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
-          {/* Premium Plan */}
-          <div className="flex flex-col w-full px-4 space-y-5 sm:w-1/2">
-            <h3 className="text-lg font-bold text-center sm:text-left">
+          <div className="flex w-full flex-col space-y-5 px-4 sm:w-1/2">
+            <h3 className="text-center text-lg font-bold sm:text-left">
               Premium
             </h3>
-            <p className="text-sm text-center text-muted-foreground sm:text-left">
+            <p className="text-start text-sm text-muted-foreground">
               Unlock the following features:
             </p>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -78,13 +77,13 @@ export default function PremiumModal() {
                     key={feature.title}
                     className="flex items-center space-x-2"
                   >
-                    <CheckIcon className="text-green-500 size-4" />
+                    <CheckIcon className="size-4 text-green-500" />
                     <span>{feature.title}</span>
                   </li>
                 ))}
               <li className="flex items-center space-x-2">
-                <CheckIcon className="text-green-500 size-4" />
-                <span>Create up to 10 resumes</span>
+                <CheckIcon className="size-4 text-green-500" />
+                <span>Create up to 5 resumes</span>
               </li>
             </ul>
             <Button
@@ -101,7 +100,6 @@ export default function PremiumModal() {
             </Button>
           </div>
 
-          {/* Separator */}
           <Separator
             orientation="horizontal"
             className="block w-full sm:hidden"
@@ -111,26 +109,25 @@ export default function PremiumModal() {
             className="hidden h-full sm:block"
           />
 
-          {/* Premium Plus Plan */}
-          <div className="flex flex-col w-full px-4 space-y-5 sm:w-1/2">
-            <div className="flex items-center justify-center space-x-2">
-              <SparkleIcon className="w-5 h-5 text-yellow-500" />
-              <h3 className="text-lg font-bold text-transparent bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text">
+          <div className="flex w-full flex-col space-y-5 px-4 sm:w-1/2">
+            <div className="flex items-center justify-center space-x-2 md:justify-normal">
+              <SparkleIcon className="h-5 w-5 text-yellow-500" />
+              <h3 className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-lg font-bold text-transparent">
                 Premium Plus
               </h3>
             </div>
-            <p className="text-sm text-center text-muted-foreground sm:text-left">
+            <p className="text-start text-sm text-muted-foreground">
               Get everything in Premium, plus:
             </p>
             <ul className="space-y-2 text-sm text-muted-foreground">
               {premiumPlusFeatures.map((feature) => (
                 <li key={feature.title} className="flex items-center space-x-2">
-                  <CheckIcon className="text-green-500 size-4" />
+                  <CheckIcon className="size-4 text-green-500" />
                   <span>{feature.title}</span>
                 </li>
               ))}
               <li className="flex items-center space-x-2">
-                <CheckIcon className="text-green-500 size-4" />
+                <CheckIcon className="size-4 text-green-500" />
                 <span>Unlimited resumes</span>
               </li>
             </ul>

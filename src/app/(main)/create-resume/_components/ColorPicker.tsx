@@ -4,13 +4,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import usePremiumModal from "@/hooks/usePremiumModal";
+import { useSubscriptionPlan } from "@/providers/SubscriptionPlanProvider";
+import { canUseCustomization } from "@/utils/permissions";
 import { PaletteIcon } from "lucide-react";
 import { useState } from "react";
-import {
-  Color,
-  ColorChangeHandler,
-  ChromePicker,
-} from "react-color";
+import { Color, ColorChangeHandler, ChromePicker } from "react-color";
 
 interface ColorPickerProps {
   color: Color | undefined;
@@ -19,6 +18,8 @@ interface ColorPickerProps {
 
 export default function ColorPicker({ color, onChange }: ColorPickerProps) {
   const [showPopover, setShowPopover] = useState(false);
+  const subscriptionPlan = useSubscriptionPlan();
+  const premiumModal = usePremiumModal();
 
   return (
     <Popover open={showPopover} onOpenChange={setShowPopover}>
@@ -29,7 +30,13 @@ export default function ColorPicker({ color, onChange }: ColorPickerProps) {
           title="Change resume color"
           aria-label="Change resume color"
           className="flex items-center gap-2"
-          onClick={() => setShowPopover(true)}
+          onClick={() => {
+            if (!canUseCustomization(subscriptionPlan)) {
+              premiumModal.setOpen(true);
+              return;
+            }
+            setShowPopover(true);
+          }}
         >
           <PaletteIcon size={16} />
         </Button>
@@ -38,7 +45,7 @@ export default function ColorPicker({ color, onChange }: ColorPickerProps) {
         className="border-none bg-transparent shadow-none"
         align="start"
       >
-        <ChromePicker color={color} onChange={onChange} disableAlpha/>
+        <ChromePicker color={color} onChange={onChange} disableAlpha />
       </PopoverContent>
     </Popover>
   );
