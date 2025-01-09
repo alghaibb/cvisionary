@@ -8,13 +8,15 @@ import { Metadata } from "next";
 import Link from "next/link";
 import CreateResumeButton from "./_components/CreateResumeButton";
 import ResumeItem from "./_components/ResumeItem";
+import { getUserSubscription } from "@/utils/subscription";
+import { canCreateResume } from "@/utils/permissions";
 
 export const metadata: Metadata = {
   title: "My Resumes",
 };
 
 export default withAuth(async function Page({ user }: { user: User }) {
-  const [resumes, totalCount] = await Promise.all([
+  const [resumes, totalCount, subscriptionPlan] = await Promise.all([
     prisma.resume.findMany({
       where: {
         userId: user.id,
@@ -29,10 +31,11 @@ export default withAuth(async function Page({ user }: { user: User }) {
         userId: user.id,
       },
     }),
+    getUserSubscription(user.id),
   ]);
 
   return (
-    <main className="w-full px-3 py-6 mx-auto space-y-6 max-w-7xl">
+    <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
       {resumes.length === 0 ? (
         <div className="flex h-[60vh] flex-col items-center justify-center space-y-4 text-center">
           <FileText size={64} />
@@ -42,7 +45,7 @@ export default withAuth(async function Page({ user }: { user: User }) {
           <p className="text-sm text-muted-foreground">
             Create a new resume to get started
           </p>
-          <Button asChild className="flex gap-2 mx-auto w-fit">
+          <Button asChild className="mx-auto flex w-fit gap-2">
             <Link href="/create-resume">
               <PlusSquare size={16} />
               Create A New Resume
@@ -51,14 +54,16 @@ export default withAuth(async function Page({ user }: { user: User }) {
         </div>
       ) : (
         <>
-          <CreateResumeButton canCreate={totalCount < 5} />
+          <CreateResumeButton
+            canCreate={canCreateResume(subscriptionPlan, totalCount)}
+          />
           <div className="space-y-1">
             <h1 className="text-3xl font-bold">Your Resumes</h1>
             <p className="text-sm text-muted-foreground">
               Resume count: {totalCount}
             </p>
           </div>
-          <div className="flex flex-col w-full grid-cols-2 gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
+          <div className="flex w-full grid-cols-2 flex-col gap-3 sm:grid md:grid-cols-3 lg:grid-cols-4">
             {resumes.map((resume, idx) => {
               const untitledIndex = resumes
                 .slice(0, idx + 1)

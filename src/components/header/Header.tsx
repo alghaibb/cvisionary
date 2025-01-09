@@ -7,7 +7,7 @@ export default async function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-muted bg-background/10 backdrop-blur-lg">
-      <div className="w-full mx-auto max-w-7xl">
+      <div className="mx-auto w-full max-w-7xl">
         <Navbar user={user} />
       </div>
     </header>

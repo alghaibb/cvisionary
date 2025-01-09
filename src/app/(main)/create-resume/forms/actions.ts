@@ -2,8 +2,24 @@
 
 import openai from "@/lib/openai";
 import { GenerateSummaryValues, GenerateWorkExperienceValues, WorkExperience, generateSummartySchema, generateWorkExperienceSchema } from "@/schemas";
+import { canUseAITools } from "@/utils/permissions";
+import { getSession } from "@/utils/session";
+import { getUserSubscription } from "@/utils/subscription";
 
 export async function generateSummary(values: GenerateSummaryValues) {
+  const session = await getSession();
+  const userId = session?.user.id;
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const subscriptionPlan = await getUserSubscription(userId);
+
+  if (!canUseAITools(subscriptionPlan)) {
+    throw new Error("Upgrade your subscription to use this feature");
+  }
+
   const { jobTitle, workExperiences, educations, skills = [] } = generateSummartySchema.parse(values);
 
   const systemMessage = `
@@ -71,6 +87,20 @@ export async function generateSummary(values: GenerateSummaryValues) {
 export async function generateWorkExperience(
   values: GenerateWorkExperienceValues
 ) {
+  const session = await getSession();
+  const userId = session?.user.id;
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const subscriptionPlan = await getUserSubscription(userId);
+
+  if (!canUseAITools(subscriptionPlan)) {
+    throw new Error("Upgrade your subscription to use this feature");
+  }
+
+
   const { description } = generateWorkExperienceSchema.parse(values);
 
   const systemMessage = `

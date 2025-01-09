@@ -26,6 +26,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useSubscriptionPlan } from "@/providers/SubscriptionPlanProvider";
+import { canUseAITools } from "@/utils/permissions";
+import usePremiumModal from "@/hooks/usePremiumModal";
 
 interface GenerateWorkExperienceButtonProps {
   onWorkExperienceGenerated: (workExperience: WorkExperience) => void;
@@ -35,13 +38,21 @@ export default function GenerateWorkExperienceButton({
   onWorkExperienceGenerated,
 }: GenerateWorkExperienceButtonProps) {
   const [showInputDialog, setShowInputDialog] = useState(false);
+  const premiumModal = usePremiumModal();
+  const subscriptionPlan = useSubscriptionPlan();
 
   return (
     <>
       <Button
         variant="outline"
         type="button"
-        onClick={() => setShowInputDialog(true)}
+        onClick={() => {
+          if (!canUseAITools(subscriptionPlan)) {
+            premiumModal.setOpen(true);
+            return;
+          }
+          setShowInputDialog(true);
+        }}
         aria-label="Open Generate Work Experience Dialog"
       >
         <div className="flex items-center gap-3">

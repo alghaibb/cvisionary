@@ -5,6 +5,8 @@ import { resumeSchema, ResumeValues } from "@/schemas";
 import prisma from "@/lib/prisma";
 import { del, put } from "@vercel/blob";
 import path from "path";
+import { getUserSubscription } from "@/utils/subscription";
+import { canCreateResume, canUseCustomization } from "@/utils/permissions";
 
 export default async function saveResume(values: ResumeValues) {
   const { id } = values;
@@ -23,6 +25,16 @@ export default async function saveResume(values: ResumeValues) {
     throw new Error("User not authenticated");
   }
 
+  const subscriptionPlan = await getUserSubscription(userId);
+
+  if (!id) {
+    const resumeCount = await prisma.resume.count({ where: { userId } });
+
+    if (!canCreateResume(subscriptionPlan, resumeCount)) {
+      throw new Error("You have reached the maximum number of resumes allowed for your subscription plan");
+    }
+  }
+
   const existingResume = id ? await prisma.resume.findUnique({
     where: { id, userId }
   })
@@ -30,6 +42,16 @@ export default async function saveResume(values: ResumeValues) {
 
   if (id && !existingResume) {
     throw new Error("Resume not found");
+  }
+
+  const hasCustomizations =
+    (resumeValues.borderStyle &&
+      resumeValues.borderStyle !== existingResume?.borderStyle
+    ) || (resumeValues.colorHex &&
+      resumeValues.colorHex !== existingResume?.colorHex);
+
+  if (hasCustomizations && !canUseCustomization(subscriptionPlan)) {
+    throw new Error("You need a premium subscription to use customizations");
   }
 
   let newPhotoUrl: string | undefined | null = undefined;
