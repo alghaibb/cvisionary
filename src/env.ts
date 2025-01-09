@@ -21,6 +21,7 @@ export const env = createEnv({
     BLOB_READ_WRITE_TOKEN: z.string().min(1),
     OPENAI_API_KEY: z.string().min(1),
     STRIPE_SECRET_KEY: z.string().min(1),
+    STRIPE_WEBHOOK_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_BASE_URL: z.string().min(1).url(),
