@@ -6,7 +6,6 @@ import { formatDate } from "date-fns";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
-import Link from "next/link";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -289,30 +288,14 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
         {projectsNotEmpty.map((proj, index) => (
           <div
             key={index}
-            className="flex break-inside-avoid flex-col space-y-1"
+            className="flex break-inside-avoid flex-col space-y-2"
           >
             <p className="text-sm font-semibold">{proj.title}</p>
-            <p className="text-xs">{proj.description}</p>
-            {proj.githubUrl && (
-              <Link
-                href={proj.githubUrl}
-                className="text-xs text-blue-500"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                GitHub: {proj.githubUrl}
-              </Link>
-            )}
-            {proj.demoUrl && (
-              <Link
-                href={proj.demoUrl}
-                className="text-xs text-blue-500"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Demo: {proj.demoUrl}
-              </Link>
-            )}
+            <p className="whitespace-pre-line text-xs">{proj.description}</p>
+            <div className="flex flex-col gap-1 text-sm">
+              {proj.githubUrl && <span>GitHub: {proj.githubUrl} </span>}
+              {proj.demoUrl && <span>Demo: {proj.demoUrl}</span>}
+            </div>
             {proj.techStack && proj.techStack.length > 0 && (
               <p className="text-xs text-gray-700">
                 Tech Stack: {proj.techStack?.join(", ")}
