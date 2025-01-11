@@ -20,7 +20,7 @@ export default function SuccessPage() {
       </div>
       <footer className="text-sm">
         Need help?
-        <Button asChild variant="linkHover2" className="-ml-2">
+        <Button asChild variant="linkHover2" className="-ml-3">
           <Link href="/contact-us">Contact us</Link>
         </Button>
       </footer>

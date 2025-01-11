@@ -1,7 +1,6 @@
 import { getSession } from "@/utils/session";
 import { Metadata } from "next";
 import CreateResume from "./CreateResume";
-import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import { resumeDataInclude } from "@/types/create-resume";
 
@@ -16,9 +15,6 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: CreateResumePageProps) {
   const session = await getSession();
   const user = session?.user.id;
-  if (!session || !session.user || !user) {
-    redirect("/login");
-  }
 
   const { resumeId } = await searchParams;
 

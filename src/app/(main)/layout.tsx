@@ -2,6 +2,7 @@ import PremiumModal from "@/components/premium/PremiumModal";
 import SubscriptionPlanProvider from "@/providers/SubscriptionPlanProvider";
 import { getSession } from "@/utils/session";
 import { getUserSubscription } from "@/utils/subscription";
+import { redirect } from "next/navigation";
 
 export default async function MainLayout({
   children,
@@ -12,14 +13,14 @@ export default async function MainLayout({
   const userId = session?.user?.id;
 
   if (!userId) {
-    return null;
+    redirect("/login");
   }
 
   const userSubscriptionPlan = await getUserSubscription(userId);
 
   return (
     <SubscriptionPlanProvider userSubscription={userSubscriptionPlan}>
-      <div className="flex min-h-screen flex-col">
+      <div className="flex flex-col min-h-screen">
         {children}
         <PremiumModal />
       </div>
