@@ -28,8 +28,8 @@ export default function CreateResumeFooter({
   )?.key;
 
   return (
-    <footer className="w-full px-3 py-5 border-t">
-      <div className="flex flex-col flex-wrap justify-between gap-3 mx-auto max-w-7xl md:flex-row">
+    <footer className="w-full border-t px-3 py-5">
+      <div className="mx-auto flex max-w-7xl flex-col flex-wrap justify-between gap-3 md:flex-row">
         <div className="flex items-center gap-3">
           <Button
             variant="outline"
