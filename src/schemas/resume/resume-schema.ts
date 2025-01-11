@@ -5,6 +5,8 @@ import { personalInfoSchema } from "./personal-info-schema";
 import { skillsSchema } from "./skills-schema";
 import { summarySchema } from "./summary-schema";
 import { workExperienceSchema } from "./work-experience-schema";
+import { projectSchema } from "./project-schema";
+import { referenceSchema } from "./reference-schema";
 
 export const resumeSchema = z.object({
   ...generalInfoSchema.shape,
@@ -13,6 +15,8 @@ export const resumeSchema = z.object({
   ...educationSchema.shape,
   ...skillsSchema.shape,
   ...summarySchema.shape,
+  ...projectSchema.shape,
+  ...referenceSchema.shape,
   colorHex: optionalString,
   borderStyle: optionalString,
 })

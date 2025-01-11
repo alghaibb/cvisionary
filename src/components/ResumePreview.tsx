@@ -6,6 +6,7 @@ import { formatDate } from "date-fns";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
+import Link from "next/link";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -42,7 +43,9 @@ export default function ResumePreview({
         <SummarySection resumeData={resumeData} />
         <WorkExperienceSection resumeData={resumeData} />
         <EducationSection resumeData={resumeData} />
+        <ProjectSection resumeData={resumeData} />
         <SkillsSection resumeData={resumeData} />
+        <ReferenceSection resumeData={resumeData} />
       </div>
     </div>
   );
@@ -252,6 +255,114 @@ function EducationSection({ resumeData }: ResumeSectionProps) {
             <p className="text-xs font-semibold">{edu.school}</p>
           </div>
         ))}
+      </div>
+    </>
+  );
+}
+
+function ProjectSection({ resumeData }: ResumeSectionProps) {
+  const { projects, colorHex } = resumeData;
+
+  const projectsNotEmpty = projects?.filter(
+    (proj) => Object.values(proj).filter(Boolean).length > 0,
+  );
+
+  if (!projectsNotEmpty?.length) return null;
+
+  return (
+    <>
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
+      <div className="space-y-3">
+        <p
+          className="text-lg font-semibold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Projects
+        </p>
+        {projectsNotEmpty.map((proj, index) => (
+          <div
+            key={index}
+            className="flex break-inside-avoid flex-col space-y-1"
+          >
+            <p className="text-sm font-semibold">{proj.title}</p>
+            <p className="text-xs">{proj.description}</p>
+            {proj.githubUrl && (
+              <Link
+                href={proj.githubUrl}
+                className="text-xs text-blue-500"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                GitHub: {proj.githubUrl}
+              </Link>
+            )}
+            {proj.demoUrl && (
+              <Link
+                href={proj.demoUrl}
+                className="text-xs text-blue-500"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Demo: {proj.demoUrl}
+              </Link>
+            )}
+            {proj.techStack && proj.techStack.length > 0 && (
+              <p className="text-xs text-gray-700">
+                Tech Stack: {proj.techStack?.join(", ")}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function ReferenceSection({ resumeData }: ResumeSectionProps) {
+  const { references, colorHex } = resumeData;
+
+  const referencesNotEmpty = references?.filter(
+    (ref) => Object.values(ref).filter(Boolean).length > 0,
+  );
+
+  if (!referencesNotEmpty?.length) return null;
+
+  return (
+    <>
+      <div className="break-before-page space-y-3">
+        <hr
+          className="border-2"
+          style={{
+            borderColor: colorHex,
+          }}
+        />
+        <div className="space-y-3">
+          <p
+            className="text-lg font-semibold"
+            style={{
+              color: colorHex,
+            }}
+          >
+            References
+          </p>
+          {referencesNotEmpty.map((ref, index) => (
+            <div key={index} className="break-inside-avoid space-y-1">
+              <p className="text-sm font-semibold">{ref.name}</p>
+              <p className="text-xs">
+                {ref.position} at {ref.company}
+              </p>
+              <p className="text-xs">{ref.email}</p>
+              <p className="text-xs">{ref.phone}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

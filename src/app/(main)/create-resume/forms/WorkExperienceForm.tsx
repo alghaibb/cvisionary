@@ -88,7 +88,7 @@ export default function WorkExperienceForm({
   }
 
   return (
-    <div className="mx-auto max-w-xl space-y-6">
+    <div className="max-w-xl mx-auto space-y-6">
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">Work Experience</h2>
         <p className="text-sm text-muted-foreground">
@@ -179,7 +179,7 @@ function WorkExperienceItem({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <GripHorizontal
-            className="h-4 w-4 cursor-grab text-muted-foreground focus:outline-none"
+            className="w-4 h-4 cursor-grab text-muted-foreground focus:outline-none"
             {...attributes}
             {...listeners}
           />
