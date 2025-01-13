@@ -28,7 +28,7 @@ export default function CreateResumeFooter({
   )?.key;
 
   return (
-    <footer className="w-full border-t px-3 py-5">
+    <footer className="w-full border-t px-3 py-5 md:py-8">
       <div className="mx-auto flex max-w-7xl flex-col flex-wrap justify-between gap-3 md:flex-row">
         <div className="flex items-center gap-3">
           <Button
@@ -69,7 +69,7 @@ export default function CreateResumeFooter({
           <p
             className={cn(
               "flex items-center gap-1 text-muted-foreground transition-opacity duration-300",
-              isSaving ? "opacity-100" : "opacity-0",
+              isSaving ? "opacity-100" : "hidden opacity-0",
             )}
           >
             Saving

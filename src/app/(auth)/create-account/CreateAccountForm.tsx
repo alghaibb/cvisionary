@@ -86,17 +86,12 @@ export default function CreateAccountForm() {
 
   async function onSubmit(data: z.infer<typeof createAccountSchema>) {
     setError(null);
-    startTransition(() => {
-      createAccount(data)
-        .then((result) => {
-          if (result.error) {
-            setError(result.error);
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to create account:", error);
-          setError("Failed to create account. Please try again.");
-        });
+    startTransition(async () => {
+      const result = await createAccount(data);
+      if (result?.error) {
+        setError(result.error);
+      }
+      form.reset();
     });
   }
 
@@ -186,7 +181,7 @@ export default function CreateAccountForm() {
 
               {/* Smooth Progress Bar */}
               <div
-                className="relative w-full h-1 mt-2 overflow-hidden rounded-full bg-border"
+                className="relative mt-2 h-1 w-full overflow-hidden rounded-full bg-border"
                 role="progressbar"
                 aria-valuenow={passwordStrength.score}
                 aria-valuemin={0}
@@ -249,7 +244,7 @@ export default function CreateAccountForm() {
           )}
         />
 
-        <div className="flex flex-col justify-between w-full pt-4 space-y-4 md:flex-row md:space-y-0">
+        <div className="flex w-full flex-col justify-between space-y-4 pt-4 md:flex-row md:space-y-0">
           <LoadingButton
             type="submit"
             className="w-full md:w-auto"

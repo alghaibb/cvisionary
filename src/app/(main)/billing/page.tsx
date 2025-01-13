@@ -30,27 +30,45 @@ export default async function Page() {
     : null;
 
   return (
-    <main className="w-full px-3 py-6 mx-auto space-y-6 max-w-7xl">
-      <h1 className="text-3xl font-bold">Billing</h1>
-      <p className="flex gap-1">
-        Your current plan:
-        <span className="font-bold">
-          {priceInfo ? (priceInfo.product as Stripe.Product).name : "Free"}
-        </span>
-      </p>
-      {subscription ? (
-        <>
-          {subscription.stripeCancelAtPeriodEnd && (
-            <p className="text-destructive">
-              Your subscription will be canceled on{" "}
-              {formatDate(subscription.stripeCurrentPeriodEnd, "MMM dd, yyyy")}
-            </p>
+    <main className="mx-auto w-full max-w-3xl space-y-6 px-6 py-8">
+      <header className="text-center">
+        <h1 className="text-4xl font-bold text-gray-800">Billing</h1>
+        <p className="mt-2 text-gray-500">
+          Manage your subscription details and plan.
+        </p>
+      </header>
+
+      <section className="rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-sm">
+        <h2 className="text-2xl font-semibold text-gray-800">
+          Your Current Plan
+        </h2>
+        <p className="mt-4 text-lg">
+          <span className="font-medium text-gray-700">Plan:</span>{" "}
+          <span className="font-bold text-gray-800">
+            {priceInfo ? (priceInfo.product as Stripe.Product).name : "Free"}
+          </span>
+        </p>
+        {priceInfo && (
+          <p className="mt-1 text-sm text-gray-600">
+            ${priceInfo.unit_amount ? priceInfo.unit_amount / 100 : "N/A"} per{" "}
+            {priceInfo.recurring?.interval}
+          </p>
+        )}
+        {subscription?.stripeCancelAtPeriodEnd && (
+          <p className="mt-2 text-sm text-red-600">
+            Your subscription will be canceled on{" "}
+            {formatDate(subscription.stripeCurrentPeriodEnd, "MMM dd, yyyy")}.
+          </p>
+        )}
+
+        <div className="mt-6">
+          {subscription ? (
+            <ManageSubscriptionButton />
+          ) : (
+            <GetSubscriptionButton />
           )}
-          <ManageSubscriptionButton />
-        </>
-      ) : (
-        <GetSubscriptionButton />
-      )}
+        </div>
+      </section>
     </main>
   );
 }

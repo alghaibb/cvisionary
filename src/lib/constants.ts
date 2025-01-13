@@ -12,6 +12,7 @@ export const NO_HEADER_FOOTER_ROUTES = [
   "/verify-email",
   "/magic-link",
   "/magic-link/verify",
+  "/create-resume"
 ];
 
 export const DESKTOP_NAVIGATION_LINKS = [

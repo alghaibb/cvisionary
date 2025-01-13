@@ -42,7 +42,7 @@ export default function CreateResume({ resumeToEdit }: CreateResumeProps) {
 
   return (
     <div className="flex grow flex-col">
-      <header className="space-y-1.5 border-b px-3 py-5 text-center">
+      <header className="space-y-1.5 border-b px-3 py-12 text-center">
         <h1 className="text-2xl font-bold">Create A New Resume</h1>
         <p className="text-sm text-muted-foreground">
           Start by following the instructions below to create your new resume.
