@@ -344,7 +344,9 @@ function ReferenceSection({ resumeData }: ResumeSectionProps) {
           </p>
           {referencesNotEmpty.map((ref, index) => (
             <div key={index} className="break-inside-avoid space-y-1">
-              <p className="text-sm font-semibold">{ref.name}</p>
+              <p className="text-sm font-semibold" style={{ color: colorHex }}>
+                {ref.name}
+              </p>
               <p className="text-xs">
                 {ref.position} at {ref.company}
               </p>

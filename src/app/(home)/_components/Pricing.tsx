@@ -1,22 +1,24 @@
 "use client";
 
-import {
-  FREE_TIER_FEATURES,
-  PREMIUM_TIER_FEATURES,
-  PREMIUM_PLUS_FEATURES,
-} from "@/lib/constants";
+import { createCheckoutSession } from "@/components/premium/actions";
+import { LoadingButton } from "@/components/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@/components/ui/card";
-import { LoadingButton } from "@/components/ui/button";
 import { env } from "@/env";
 import { useToast } from "@/hooks/use-toast";
-import { createCheckoutSession } from "@/components/premium/actions";
+import {
+  FREE_TIER_FEATURES,
+  PREMIUM_PLUS_FEATURES,
+  PREMIUM_TIER_FEATURES,
+} from "@/lib/constants";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const plans = [
@@ -54,11 +56,18 @@ const plans = [
 ];
 
 export default function Pricing() {
+  const { data: session } = useSession();
   const { toast } = useToast();
+  const router = useRouter();
 
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
   async function handleSubscription(priceId?: string, planName?: string) {
+    if (!session) {
+      router.push("/login");
+      return;
+    }
+
     if (!priceId) {
       toast({
         variant: "destructive",
@@ -92,7 +101,7 @@ export default function Pricing() {
           {plans.map((plan) => (
             <Card
               key={plan.name}
-              className={`${plan.isPremium ? "border-primary shadow-lg" : ""}`}
+              className={`flex flex-col ${plan.isPremium ? "border-primary shadow-lg" : ""}`}
             >
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">
@@ -103,7 +112,7 @@ export default function Pricing() {
                 </CardDescription>
                 <p className="mt-2 text-sm">{plan.description}</p>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow">
                 <ul className="space-y-3">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-center gap-2 text-sm">
@@ -112,7 +121,7 @@ export default function Pricing() {
                   ))}
                 </ul>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="mt-auto flex items-end">
                 <LoadingButton
                   variant={plan.isPremium ? "shine" : "default"}
                   className="w-full"

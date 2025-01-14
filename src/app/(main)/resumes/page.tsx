@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
 import { resumeDataInclude } from "@/types/create-resume";
+import { canCreateResume } from "@/utils/permissions";
+import { getUserSubscription } from "@/utils/subscription";
 import { withAuth } from "@/utils/withAuth";
 import { User } from "@prisma/client";
 import { FileText, PlusSquare } from "lucide-react";
@@ -8,8 +10,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 import CreateResumeButton from "./_components/CreateResumeButton";
 import ResumeItem from "./_components/ResumeItem";
-import { getUserSubscription } from "@/utils/subscription";
-import { canCreateResume } from "@/utils/permissions";
 
 export const metadata: Metadata = {
   title: "My Resumes",
