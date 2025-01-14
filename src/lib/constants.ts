@@ -63,3 +63,43 @@ export const FEATURES = [
     icon: mobileIcon,
   },
 ];
+
+// Pricing section
+export const FREE_TIER_FEATURES = [
+  {
+    title: "Instant PDF Downloads",
+    description: "Download your resume in seconds with a single click.",
+    icon: pdfIcon,
+  },
+  {
+    title: "Live Preview",
+    description: "See your resume update in real-time as you make changes.",
+    icon: preview,
+  },
+  {
+    title: "Mobile Friendly",
+    description: "Create resumes anytime, anywhere on any device.",
+    icon: mobileIcon,
+  },
+];
+
+export const PREMIUM_TIER_FEATURES = [
+  {
+    title: "Customizable Design",
+    description:
+      "Choose the theme for your resume, adjust how rounded your images are, your skills, and separators to make your resume truly yours.",
+    icon: customTheme,
+    isPremium: true,
+  },
+];
+
+export const PREMIUM_PLUS_FEATURES = [
+  {
+    title: "AI-Generated Resume Sections",
+    description:
+      "Let AI craft your professional summary and fill out your work experience, including job titles, dates, and descriptions, with minimal input. You can even chat with the AI in plain, casual English.",
+    icon: aiIcon,
+    isPremium: true,
+  },
+];
+
