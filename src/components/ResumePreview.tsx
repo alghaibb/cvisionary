@@ -290,14 +290,21 @@ function ProjectSection({ resumeData }: ResumeSectionProps) {
             key={index}
             className="flex break-inside-avoid flex-col space-y-2"
           >
-            <p className="text-sm font-semibold">{proj.title}</p>
+            <p
+              className="text-sm font-semibold"
+              style={{
+                color: colorHex,
+              }}
+            >
+              {proj.title}
+            </p>
             <p className="whitespace-pre-line text-xs">{proj.description}</p>
             <div className="flex flex-col gap-1 text-sm">
               {proj.githubUrl && <span>GitHub: {proj.githubUrl} </span>}
               {proj.demoUrl && <span>Demo: {proj.demoUrl}</span>}
             </div>
             {proj.techStack && proj.techStack.length > 0 && (
-              <p className="text-xs text-gray-700">
+              <p className="text-xs font-bold">
                 Tech Stack: {proj.techStack?.join(", ")}
               </p>
             )}
