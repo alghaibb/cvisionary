@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import NextAuth, { User } from "next-auth";
+import NextAuth from "next-auth";
 import type { NextAuthConfig } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import { encode as defaultEncode } from "next-auth/jwt";
@@ -7,10 +7,10 @@ import Credentials from "next-auth/providers/credentials";
 import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google";
 import { v4 as uuid } from "uuid";
-import { getUserFromDb } from "./utils/db/user";
 import prisma from "./lib/prisma";
 import { env } from "./env";
 import EmailProvider from "next-auth/providers/resend";
+import bcrypt from "bcryptjs";
 
 const adapter = PrismaAdapter(prisma) as Adapter;
 
@@ -40,20 +40,45 @@ const authConfig: NextAuthConfig = {
     }),
     Credentials({
       credentials: {
-        email: {},
-        password: {},
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const { email, password } = credentials;
+        const { email, password } = credentials as { email: string; password?: string };
 
-        // Fetch the user by email
-        const res = await getUserFromDb(email as string, password as string);
-        if (res) {
-          return res as User;
+        if (!email) {
+          throw new Error("Email is required.");
         }
 
-        return null;
-      },
+        // Fetch the user
+        const user = await prisma.user.findUnique({
+          where: { email },
+        });
+
+        if (!user) {
+          throw new Error("No user found with this email.");
+        }
+
+        // If password is provided, validate it
+        if (password) {
+          const isPasswordValid = await bcrypt.compare(password, user.password as string);
+          if (!isPasswordValid) {
+            throw new Error("Invalid credentials.");
+          }
+        }
+
+        // If no password, ensure the user is verified
+        if (!password && !user.emailVerified) {
+          throw new Error("Email is not verified. Please verify your email.");
+        }
+
+        return {
+          id: user.id,
+          name: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
+          email: user.email,
+          emailVerified: user.emailVerified,
+        };
+      }
     }),
   ],
   callbacks: {

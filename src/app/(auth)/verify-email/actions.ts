@@ -5,6 +5,7 @@ import { otpSchema, OTPValues } from "@/schemas";
 import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { verifyVerificationOTP, deleteVerificationOTP } from "@/utils/token";
+import { signIn } from "@/auth";
 
 export async function verifyAccount(values: OTPValues) {
   try {
@@ -30,7 +31,18 @@ export async function verifyAccount(values: OTPValues) {
 
     await deleteVerificationOTP(otp);
 
-    redirect("/login");
+    const result: { error?: string } = await signIn("credentials", {
+      redirect: false,
+      email: user.email,
+      password: "",
+    })
+
+    if (result?.error) {
+      console.error("Failed to log in user after verification:", result.error);
+      return { error: "Failed to log in. Please try logging in manually." };
+    }
+
+    redirect("/resumes");
   } catch (error) {
     if (isRedirectError(error)) throw error;
     console.error("Something went wrong:", error)
