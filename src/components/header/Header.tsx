@@ -1,5 +1,5 @@
-import Navbar from "./Navbar";
 import { getSession } from "@/utils/session";
+import Navbar from "./Navbar";
 
 export default async function Header() {
   const session = await getSession();

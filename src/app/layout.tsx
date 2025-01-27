@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import { Jost } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
-import { getSession } from "@/utils/session";
-import "./globals.css";
-import Header from "@/components/header/Header";
-import { ThemeProvider } from "next-themes";
-import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/footer/Footer";
+import Header from "@/components/header/Header";
+import { Toaster } from "@/components/ui/toaster";
+import { getSession } from "@/utils/session";
+import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "next-themes";
+import { Jost } from "next/font/google";
+import "./globals.css";
 
 const jost = Jost({ subsets: ["latin"] });
 
