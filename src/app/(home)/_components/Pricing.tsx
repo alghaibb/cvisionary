@@ -33,7 +33,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "$9.99/mo",
+    price: "$9.95/mo",
     description: "Unlock advanced features to make your resume stand out.",
     features: [...FREE_TIER_FEATURES, ...PREMIUM_TIER_FEATURES],
     cta: "Get Premium",
@@ -42,7 +42,7 @@ const plans = [
   },
   {
     name: "Premium Plus",
-    price: "$19.99/mo",
+    price: "$19.95/mo",
     description: "For professionals who need the full package.",
     features: [
       ...FREE_TIER_FEATURES,
