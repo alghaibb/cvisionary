@@ -91,8 +91,8 @@ export default function Pricing() {
     }
   }
   return (
-    <section className="py-16 text-center">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="py-16 text-center bg-muted">
+      <div className="px-6 mx-auto max-w-7xl">
         <h2 className="mb-8 text-4xl font-bold">Choose Your Plan</h2>
         <p className="mb-12 text-lg">
           Start for free or upgrade to unlock powerful features.
@@ -121,7 +121,7 @@ export default function Pricing() {
                   ))}
                 </ul>
               </CardContent>
-              <CardFooter className="mt-auto flex items-end">
+              <CardFooter className="flex items-end mt-auto">
                 <LoadingButton
                   variant={plan.isPremium ? "shine" : "default"}
                   className="w-full"
