@@ -5,7 +5,7 @@ import React from "react";
 
 export default function HowItWorks() {
   return (
-    <section className="py-12 text-center md:px-16">
+    <section className="px-4 md:px-0 py-12 text-center md:px-16">
       <div className="mx-auto max-w-7xl">
         <h2 className="text-3xl font-bold md:text-4xl">How It Works</h2>
         <p>
